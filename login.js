@@ -22,10 +22,28 @@ function ingresar(){
     }
 
     if (correo === "admin@demo.cl" && clave === "1234"){
+        let usuario = {
+            nombre: "Administrador",
+            correo: correo,
+            tipo: "Administrador"
+        };
+        localStorage.setItem("usuario", JSON.stringify(usuario));
         window.location.href = "admin.html";
     }else if (correo === "usuario@demo.cl" && clave === "1234"){
+        let usuario = {
+            nombre: "Usuario Demo",
+            correo: correo,
+            tipo: "Cliente"
+        };
+        localStorage.setItem("usuario", JSON.stringify(usuario));
         window.location.href = "usuario.html";
     }else if (correo === "recepcionista@demo.cl" && clave === "1234"){
+        let usuario = {
+            nombre: "Recepcionista",
+            correo: correo,
+            tipo: "Recepcionista"
+        };
+        localStorage.setItem("usuario", JSON.stringify(usuario));
         window.location.href = "recepcionista.html";
     }else{
         alert("Correo o clave incorrectos")

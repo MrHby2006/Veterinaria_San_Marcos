@@ -1,4 +1,4 @@
-let = medicamentos = [
+let medicamentos = [
     {
         código: 1,
         categoría: "Antibióticos",
@@ -247,18 +247,16 @@ let lista = document.getElementById("listaMedicamentos");
 
 for (let i = 0; i < medicamentos.length; i++){
     lista.innerHTML += `
-        <div>
-            <img src = "${medicamentos[i].imagen}" width = "200">
+        <div class = "tarjeta">
+            <img src = "${medicamentos[i].imagen}" width = "200" height = "200">
 
             <h2>${medicamentos[i].nombre_comercial}</h2>
 
             <p>Precio: $${medicamentos[i].precio_unitario}</p>
 
-            <button onclick = "verDetalle(${medicamentos[i].código})">
+            <button onclick = "verDetalle(${medicamentos[i].código})" class = "boton">
                 Ver detalle
             </button>
-
-            <hr>
         </div>
     `;
 }
@@ -280,3 +278,29 @@ function verDetalle(código){
 
     window.location.href = "detalle.html";
 }
+
+function mostrarMedicamentos(){
+    let especie = document.getElementById("filtroEspecie").value;
+    let lista = document.getElementById("listaMedicamentos");
+    lista.innerHTML = "";
+
+    for (let i = 0; i < medicamentos.length; i++){
+        if (especie === "Todas" || medicamentos[i].especie.includes(especie)){
+            lista.innerHTML += `
+                <div class = "tarjeta">
+                    <img src = "${medicamentos[i].imagen}" width = "200" height = "200">
+
+                    <h2>${medicamentos[i].nombre_comercial}</h2>
+
+                    <p>Precio: $${medicamentos[i].precio_unitario}</p>
+
+                    <button onclick = "verDetalle(${medicamentos[i].código})" class = "boton">
+                        Ver detalle
+                    </button>
+                </div>
+            `;
+        }
+    }
+}
+
+mostrarMedicamentos();

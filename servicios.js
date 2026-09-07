@@ -292,11 +292,11 @@ function reservarHora(id) {
 
     let usuario = localStorage.getItem("usuario");
 
-    if (usuario === null) {
-        alert("Debes iniciar sesión antes de reservar una hora");
-        window.location.href = "login.html";
-        return;
-    }
+    if (usuario === null || JSON.parse(usuario).tipo !== "Cliente") {
+    alert("Debes iniciar sesión como Cliente antes de reservar una hora");
+    window.location.href = "login.html";
+    return;
+}
 
     usuario = JSON.parse(usuario);
 
