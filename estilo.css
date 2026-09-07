@@ -145,6 +145,14 @@ main {
     text-align: center;
 }
 
+.medio-text{
+    text-align: center;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+}
+
 .tarjeta img {
     width: 100%;
     height: 150px;
@@ -229,10 +237,6 @@ footer {
 .columnaFooter p {
     margin-bottom: 5px;
     font-size: 14px;
-}
-
-.margenSuperior {
-    margin-top: 30px;
 }
 
 .margenInferior {
