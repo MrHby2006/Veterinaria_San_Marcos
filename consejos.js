@@ -23,16 +23,16 @@ let lista = document.getElementById("listaConsejos");
 
 for (let i = 0; i < consejos.length; i++){
     lista.innerHTML += `
-        <div>
+        <div class = "tarjeta">
             <img src = "${consejos[i].imagen}" width = "200">
 
             <h2>${consejos[i].nombre}</h2>
 
-            <button onclick = "verDetalle(${consejos[i].id})">
+            <button class = "boton" onclick = "verDetalle(${consejos[i].id})">
                 Ver detalle
             </button>
 
-            <hr>
+            <br>
         </div>
     `;
 }
