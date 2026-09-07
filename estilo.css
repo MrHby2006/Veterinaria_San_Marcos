@@ -1,0 +1,279 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F7F4EF;
+    color: #2F3E46;
+}
+
+header {
+    background-color: #2A9D8F;
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.logo {
+    flex: 1;
+}
+
+.logo h1 {
+    color: white;
+    font-size: 22px;
+}
+
+nav {
+    flex: 2;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 12px;
+    font-size: 15px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.acciones {
+    flex: 1;
+    text-align: right;
+}
+
+.acciones a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 15px;
+}
+
+.acciones a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hero {
+    background-color: #2A9D8F;
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.hero-texto {
+    flex: 1;
+}
+
+.hero h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.hero-imagen {
+    flex: 1;
+}
+
+.hero-imagen img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.boton {
+    display: inline-block;
+    background-color: #2A9D8F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.boton:hover {
+    background-color: #21867A;
+}
+
+.botonHero {
+    display: inline-block;
+    background-color: white;
+    color: #2A9D8F;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.botonHero:hover {
+    background-color: #F7F4EF;
+}
+
+.tarjetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.tarjeta {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    width: 260px;
+    padding: 15px;
+    text-align: center;
+}
+
+.tarjeta img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.tarjeta h3 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.precio {
+    color: #21867A;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 8px;
+}
+
+.caja {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 25px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #2A9D8F;
+    color: white;
+}
+
+footer {
+    background-color: #2F3E46;
+    color: white;
+    padding: 30px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    text-align: center;
+}
+
+.columnaFooter {
+    width: 220px;
+}
+
+.columnaFooter h3 {
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
+.columnaFooter p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.margenSuperior {
+    margin-top: 30px;
+}
+
+.margenInferior {
+    margin-bottom: 30px;
+}
+
+.botonAncho {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.cajaDetalle {
+    margin-top: 20px;
+    text-align: center;
+    max-width: 400px;
+}
+
+.iconoGrande {
+    font-size: 40px;
+}
+
+.enlaceCentrado {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.tituloCentrado {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.totalReserva {
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.filtro {
+    max-width: 300px;
+    margin-bottom: 20px;
+}
+
+.inputPrecio {
+    width: 100px;
+}

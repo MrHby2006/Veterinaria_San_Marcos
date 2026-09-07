@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios - Panel de administración</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>⚙️ Panel de administración</h1>
+        </div>
+        <nav>
+            <a href="admin.html">Inicio</a>
+            <a href="admin-servicios.html">Servicios</a>
+            <a href="admin-usuarios.html">Usuarios</a>
+        </nav>
+        <div class="acciones">
+            <a href="inicio.html">Ver sitio público</a>
+        </div>
+    </header>
+
+    <main>
+
+        <h2>Mantenedor de usuarios</h2>
+
+        <div class="caja margenInferior">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre">
+
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo">
+
+            <label for="tipo">Tipo de usuario:</label>
+            <select id="tipo">
+                <option value="Cliente">Cliente</option>
+                <option value="Recepcionista">Recepcionista</option>
+                <option value="Administrador">Administrador</option>
+            </select>
+
+            <button class="boton botonAncho" id="botonGuardar" onclick="guardarUsuario()">Agregar usuario</button>
+        </div>
+
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Tipo</th>
+                <th>Acciones</th>
+            </tr>
+            <tbody id="cuerpoTabla"></tbody>
+        </table>
+
+    </main>
+
+    <footer>
+        <p>Panel de administración - Veterinaria San Marcos</p>
+    </footer>
+
+    <script src="admin-usuarios.js"></script>
+</body>
+</html>
