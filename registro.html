@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Veterinaria San Marcos</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>🐾 Veterinaria San Marcos</h1>
+        </div>
+        <nav>
+            <a href="inicio.html">Inicio</a>
+            <a href="nosotros.html">Nosotros</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="consejos.html">Consejos</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+        <div class="acciones">
+            <a href="usuario.html">Mis Citas</a>
+            <a href="login.html">Iniciar sesión</a>
+            <a href="registro.html">Registrarse</a>
+        </div>
+    </header>
+
+    <main>
+
+        <div class="caja">
+            <h2 class="tituloCentrado">Crear cuenta</h2>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre">
+
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo">
+
+            <label for="clave">Contraseña:</label>
+            <input type="password" id="clave" maxlength="10">
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion">
+
+            <button class="boton botonAncho" onclick="registrar()">Registrarse</button>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="columnaFooter">
+            <h3>Veterinaria San Marcos</h3>
+            <p>Cuidando a tus mascotas con profesionalismo, dedicación y amor en el corazón de Rancagua.</p>
+        </div>
+        <div class="columnaFooter">
+            <h3>Contacto</h3>
+            <p>Av. San Martín 1234, Rancagua</p>
+            <p>+56 72 222 3344</p>
+            <p>contacto@sanmarcos.cl</p>
+        </div>
+        <div class="columnaFooter">
+            <h3>Horario de atención</h3>
+            <p>Lunes a viernes: 09:00 a 19:00</p>
+            <p>Sábado: 10:00 a 14:00</p>
+            <p>Urgencias: 24 horas</p>
+        </div>
+    </footer>
+
+    <script src="registro.js"></script>
+</body>
+</html>
