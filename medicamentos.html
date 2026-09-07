@@ -4,12 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicamentos y Vacunas</title>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-    <h1>Medicamentos y Vacunas</h1>
+    <header>
+        <div class="logo">
+            <h1>🐾 Veterinaria San Marcos</h1>
+        </div>
+        <nav>
+            <a href="inicio.html">Inicio</a>
+            <a href="nosotros.html">Nosotros</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="consejos.html">Consejos</a>
+            <a href="contacto.html">Contacto</a>
+            <a href="medicamentos.html">Medicamentos</a>
+        </nav>
+        <div class="acciones">
+            <a href="usuario.html">Mis Citas</a>
+            <a href="login.html">Iniciar sesión</a>
+            <a href="registro.html">Registrarse</a>
+        </div>
+    </header>
 
-    <div id = "listaMedicamentos"></div>
+    <main>
+        <h1>Medicamentos y Vacunas</h1>
 
-    <script src = "medicamentos.js"></script>
+        <div class = "tarjetas" id = "listaMedicamentos"></div>
+
+        <script src = "medicamentos.js"></script>
+    </main>
+
+    <footer>
+        <div class="columnaFooter">
+            <h3>Veterinaria San Marcos</h3>
+            <p>Cuidando a tus mascotas con profesionalismo, dedicación y amor en el corazón de Rancagua.</p>
+        </div>
+        <div class="columnaFooter">
+            <h3>Contacto</h3>
+            <p>Av. San Martín 1234, Rancagua</p>
+            <p>+56 72 222 3344</p>
+            <p>contacto@sanmarcos.cl</p>
+        </div>
+        <div class="columnaFooter">
+            <h3>Horario de atención</h3>
+            <p>Lunes a viernes: 09:00 a 19:00</p>
+            <p>Sábado: 10:00 a 14:00</p>
+            <p>Urgencias: 24 horas</p>
+        </div>
+    </footer>
 </body>
 </html>

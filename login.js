@@ -21,14 +21,12 @@ function ingresar(){
         return;
     }
 
-    if (correo === "medico@demo.cl" && clave === "1234"){
-        window.location.href = "medico.html";
-    }else if (correo === "usuario@demo.cl" && clave === "5678"){
+    if (correo === "admin@demo.cl" && clave === "1234"){
+        window.location.href = "admin.html";
+    }else if (correo === "usuario@demo.cl" && clave === "1234"){
         window.location.href = "usuario.html";
-    }else if (correo === "recepcionista@demo.cl" && clave === "2468"){
+    }else if (correo === "recepcionista@demo.cl" && clave === "1234"){
         window.location.href = "recepcionista.html";
-    }else if (correo === "tecnico@demo.cl" && clave === "1357"){
-        window.location.href = "tecnico.html";
     }else{
         alert("Correo o clave incorrectos")
     }
