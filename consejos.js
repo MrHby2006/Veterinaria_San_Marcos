@@ -29,7 +29,7 @@ for (let i = 0; i < consejos.length; i++){
             <h2>${consejos[i].nombre}</h2>
 
             <button class = "boton" onclick = "verDetalle(${consejos[i].id})">
-                Ver detalle
+                Mas información
             </button>
 
             <br>

@@ -26,9 +26,19 @@
         </div>
     </header>
 
+    <script src="sesion.js"></script>
+
     <main>
         <h1>Medicamentos y Vacunas</h1>
 
+        <div class="filtro">
+            <label for="filtroEspecie">Filtrar por especie:</label>
+            <select id="filtroEspecie" onchange="mostrarMedicamentos()">
+                <option value="Todas">Todas</option>
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+            </select>
+        </div>
         <div class = "tarjetas" id = "listaMedicamentos"></div>
 
         <script src = "medicamentos.js"></script>

@@ -118,7 +118,7 @@ main {
     border: none;
     padding: 10px 20px;
     border-radius: 6px;
-    font-size: 15px;
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
     text-decoration: none;
@@ -143,6 +143,14 @@ main {
     width: 260px;
     padding: 15px;
     text-align: center;
+}
+
+.medio-text{
+    text-align: center;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
 }
 
 .tarjeta img {
@@ -231,10 +239,6 @@ footer {
     font-size: 14px;
 }
 
-.margenSuperior {
-    margin-top: 30px;
-}
-
 .margenInferior {
     margin-bottom: 30px;
 }
@@ -245,7 +249,7 @@ footer {
 }
 
 .cajaDetalle {
-    margin-top: 20px;
+    margin: 20px auto 0;
     text-align: center;
     max-width: 400px;
 }
@@ -280,6 +284,7 @@ footer {
 .imagen{
     width: 800px;
     height: 550px;
+    max-width: 100%;
 }
 
 .textoNosotros {
@@ -298,4 +303,27 @@ footer {
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+.saludoUsuario {
+    color: white;
+    font-size: 15px;
+    margin-left: 15px;
+    font-weight: 600;
+}
+
+.acciones .botonSesion {
+    display: inline-block;
+    background-color: white;
+    color: #2A9D8F;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.acciones .botonSesion:hover {
+    background-color: #F7F4EF;
 }

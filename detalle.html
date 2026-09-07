@@ -4,22 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle del Medicamento</title>
+    <link rel = "stylesheet" href = "estilo.css">
 </head>
 <body>
-    <h1>Detalle del medicamento</h1>
 
-    <img id = "imagen" width = "300">
-    <h2 id = "nombre"></h2>
-    <p id = "principio"></p>
-    <p id = "presentacion"></p>
-    <p id = "especie"></p>
-    <p id = "stock"></p>
-    <p id = "precio"></p>
+    <header>
+        <div class="logo">
+            <h1>🐾 Veterinaria San Marcos</h1>
+        </div>
+        <nav>
+            <a href="inicio.html">Inicio</a>
+            <a href="nosotros.html">Nosotros</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="consejos.html">Consejos</a>
+            <a href="contacto.html">Contacto</a>
+            <a href="medicamentos.html">Medicamentos</a>
+        </nav>
+        <div class="acciones">
+            <a href="usuario.html">Mis Citas</a>
+            <a href="login.html">Iniciar sesión</a>
+            <a href="registro.html">Registrarse</a>
+        </div>
+    </header>
 
-    <br>
+    <script src="sesion.js"></script>
 
-    <a href = "medicamentos.html">Volver a medicamentos</a>
+    <main>
+     <div class="cajaDetalle">
+        <h1 class="tituloCentrado">Detalle del medicamento</h1>
 
+        <img id="imagen" width="300">
+        <h2 id="nombre"></h2>
+        <p id="principio"></p>
+        <p id="presentacion"></p>
+        <p id="especie"></p>
+        <p id="stock"></p>
+        <p id="precio"></p>
+
+        <p class="enlaceCentrado">
+            <a href="medicamentos.html" class="boton">Volver a medicamentos</a>
+        </p>
+    </div>
+
+    </main>
+    <footer>
+        <div class="columnaFooter">
+            <h3>Veterinaria San Marcos</h3>
+            <p>Cuidando a tus mascotas con profesionalismo, dedicación y amor en el corazón de Rancagua.</p>
+        </div>
+        <div class="columnaFooter">
+            <h3>Contacto</h3>
+            <p>Av. San Martín 1234, Rancagua</p>
+            <p>+56 72 222 3344</p>
+            <p>contacto@sanmarcos.cl</p>
+        </div>
+        <div class="columnaFooter">
+            <h3>Horario de atención</h3>
+            <p>Lunes a viernes: 09:00 a 19:00</p>
+            <p>Sábado: 10:00 a 14:00</p>
+            <p>Urgencias: 24 horas</p>
+        </div>
+    </footer>
     <script src = "detalle.js"></script>
 </body>
 </html>

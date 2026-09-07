@@ -17,10 +17,10 @@ let servicios = [
     },
     {
         id: 3,
-        nombre: "Control postoperatorio",
+        nombre: "Control post-operatorio",
         categoria: "Consultas",
         precio: 10000,
-        descripcion: "Revisión después de una cirugía.",
+        descripcion: "Revisión después de una cirugía importante.",
         imagen: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=400&h=300&fit=crop"
     },
     {
@@ -292,11 +292,11 @@ function reservarHora(id) {
 
     let usuario = localStorage.getItem("usuario");
 
-    if (usuario === null) {
-        alert("Debes iniciar sesión antes de reservar una hora");
-        window.location.href = "login.html";
-        return;
-    }
+    if (usuario === null || JSON.parse(usuario).tipo !== "Cliente") {
+    alert("Debes iniciar sesión como Cliente antes de reservar una hora");
+    window.location.href = "login.html";
+    return;
+}
 
     usuario = JSON.parse(usuario);
 
