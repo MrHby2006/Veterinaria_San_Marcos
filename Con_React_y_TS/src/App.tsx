@@ -6,6 +6,7 @@ import Servicios from './components/pages/Servicios'
 import Consejos from './components/pages/Consejos'
 import Contacto from './components/pages/Contacto'
 import Medicamentos from './components/pages/Medicamentos'
+import Footer from './components/organism/Footer'
 
 
 function App() {
@@ -45,6 +46,8 @@ function App() {
           element = {<Medicamentos />}
         />
       </Routes>
+
+      <Footer />
     </>
   )
 }
