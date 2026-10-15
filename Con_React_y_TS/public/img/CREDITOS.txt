@@ -1,0 +1,31 @@
+Créditos de las fotos de img/Servicios, img/Inicio, img/Consejos (comida, chequeo, juego) e img/Nosotros
+Todas tienen licencia libre (Creative Commons o dominio público).
+Fuentes: Wikimedia Commons y Flickr (a través de openverse.org).
+
+Servicios/consulta.jpg              Wikimedia Commons - "Close-up of a veterinarian examining a maltese dog with a stethoscope" - CC BY 2.0
+Servicios/urgencia.jpg              Wikimedia Commons - "2008-12-01 White GSD at the vet" - CC BY-SA 4.0
+Servicios/postoperatorio.jpg        Flickr - "coned" - CC BY 2.0
+Servicios/ave-conejo.jpg            Wellcome Collection - "Rabbit health check. Examining the rabbit" - CC BY 4.0
+Servicios/segunda-opinion.jpg       Wikimedia Commons - "Stethoscope examination of an orange cat in Newark, New Jersey" - CC BY 4.0
+Servicios/vacuna-perro.jpg          Wikimedia Commons - "US Navy 070810-N-4954I-038 ... rabies vaccination to a family dog" - Dominio público
+Servicios/vacuna-cachorro.jpg       Flickr - "Veterinarians office, rabies shots, Rescue Puppies" - CC BY 2.0
+Servicios/vacuna-gato.jpg           Wikimedia Commons - "Cat rabies vaccination" - CC BY 2.0
+Servicios/esterilizacion-perro.jpg  Flickr - "Recovering" - CC BY 2.0
+Servicios/esterilizacion-gato.jpg   Flickr - "At the Vet's 6" - CC BY-SA 2.0
+Servicios/cirugia.jpg               Wikimedia Commons - "Guantanamo veterinary clinic operating room" - Dominio público
+Servicios/cesarea.jpg               Wikimedia Commons - "Mother New Guinea Singing Dog with litter of puppies" - CC0
+Servicios/desparasitacion-perro.jpg Flickr - "April 27 - dog medicine" - CC BY-SA 2.0
+Servicios/desparasitacion-gato.jpg  Flickr - "Street kitten deworming!" - CC BY-SA 2.0
+Servicios/pipeta.jpg                Flickr - "Dog scratchs himself" - CC BY-NC 2.0
+Servicios/laboratorio.jpg           Flickr - "ILRI medical-veterinary laboratory in Busia, Kenya" - CC BY-NC-SA 2.0
+Servicios/radiografia.jpg           Wikimedia Commons - "Canine medial patellar luxation - ventrodorsal radiograph" - CC BY-SA 4.0
+Servicios/ecografia.jpg             Flickr - "Moonlight at the vet" - CC BY-SA 2.0
+Servicios/unas.jpg                  Wikimedia Commons - "Dog nail clipping 20230817" - CC BY-SA 4.0
+Servicios/dental.jpg                Wikimedia Commons - "BeagleToothbrush" - CC BY-SA 4.0
+Servicios/microchip.jpg             Wikimedia Commons - "Lesegeraet" - CC BY-SA 3.0
+Servicios/hospitalizacion.jpg       Wikimedia Commons - "Golden Retriever in Elizabethan collar, resting (2005)" - CC BY-SA 3.0
+Inicio/inicio.jpg                   Wikimedia Commons - "U.S. Army Capt. Brooke Henderson ... examines a Maltese mix puppy" - Dominio público
+Consejos/comida.jpg                 Flickr - "Chip Eats with Abandon 1/52" - CC BY-NC-SA 2.0
+Consejos/chequeo.jpg                Wikimedia Commons - "Kitten supported on a towel-covered examination table in Newark, New Jersey" - CC BY 4.0
+Consejos/juego.jpg                  Wikimedia Commons - "Dog Playing Ball" - CC BY-SA 3.0
+Nosotros/nosotros.jpg               Flickr - "Bee Cave Veterinary Clinic Grand Opening" - CC BY-SA 2.0
