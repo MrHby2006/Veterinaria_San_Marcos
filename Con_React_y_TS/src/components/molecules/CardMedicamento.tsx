@@ -5,14 +5,14 @@ interface CardMedProps {
     categoria: string;
     nombre_comercial: string;
     principio_activo: string;
-    presentación: string;
+    presentacion: string;
     especie: string;
     stock_actual: number;
     precio_unitario: number;
     imagen: string;
 }
 
-function CardMedicamento({id, categoria, nombre_comercial, principio_activo, presentación, especie, stock_actual, precio_unitario, imagen}: CardMedProps) {
+function CardMedicamento({categoria, nombre_comercial, principio_activo, presentacion, especie, stock_actual, precio_unitario, imagen}: CardMedProps) {
     return (
         <div className = "card" style = {{width: '20rem'}}>
             <img 
@@ -23,12 +23,12 @@ function CardMedicamento({id, categoria, nombre_comercial, principio_activo, pre
             />
 
             <div className = "card-body d-flex flex-column">
-                <h5 className = "card-tittle">
+                <h5 className = "card-title">
                     Nombre: {nombre_comercial}
                 </h5>
                 
                 <p className = "card-text">
-                    Caregoria: {categoria}
+                    Categoría: {categoria}
                 </p>
 
                 <p className = "card-text">
@@ -36,7 +36,7 @@ function CardMedicamento({id, categoria, nombre_comercial, principio_activo, pre
                 </p>
 
                 <p className = "card-text">
-                    Presentación: {presentación}
+                    Presentación: {presentacion}
                 </p>
 
                 <p className = "card-text">
@@ -52,7 +52,7 @@ function CardMedicamento({id, categoria, nombre_comercial, principio_activo, pre
                 </p>
 
                 <div className = "mt-auto">
-                    <BotonVerMed id = {id} />
+                    <BotonVerMed />
                 </div>
             </div>
         </div>
