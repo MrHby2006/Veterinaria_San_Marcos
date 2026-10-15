@@ -7,6 +7,7 @@ import Consejos from './components/pages/Consejos'
 import Contacto from './components/pages/Contacto'
 import Medicamentos from './components/pages/Medicamentos'
 import Footer from './components/organism/Footer'
+import DetalleMedicamento from './components/pages/DetalleMedicamento'
 
 
 function App() {
@@ -44,6 +45,11 @@ function App() {
         <Route
           path = '/medicamentos'
           element = {<Medicamentos />}
+        />
+
+        <Route 
+          path='/medicamento/:id'
+          element={<DetalleMedicamento />}
         />
       </Routes>
 
