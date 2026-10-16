@@ -8,6 +8,7 @@ import Contacto from './components/pages/Contacto'
 import Medicamentos from './components/pages/Medicamentos'
 import Footer from './components/organism/Footer'
 import DetalleMedicamento from './components/pages/DetalleMedicamento'
+import DetalleConsejo from './components/pages/DetalleConsejo'
 
 
 function App() {
@@ -50,6 +51,11 @@ function App() {
         <Route 
           path='/medicamento/:id'
           element={<DetalleMedicamento />}
+        />
+
+        <Route
+          path = '/consejo/:id'
+          element = {<DetalleConsejo />}
         />
       </Routes>
 

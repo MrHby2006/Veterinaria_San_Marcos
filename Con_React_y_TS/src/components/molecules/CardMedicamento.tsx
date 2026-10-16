@@ -12,7 +12,7 @@ interface CardMedProps {
     imagen: string;
 }
 
-function CardMedicamento({categoria, nombre_comercial, principio_activo, presentacion, especie, stock_actual, precio_unitario, imagen}: CardMedProps) {
+function CardMedicamento({id, categoria, nombre_comercial, principio_activo, presentacion, especie, stock_actual, precio_unitario, imagen}: CardMedProps) {
     return (
         <div className = "card" style = {{width: '20rem'}}>
             <img 
@@ -52,7 +52,7 @@ function CardMedicamento({categoria, nombre_comercial, principio_activo, present
                 </p>
 
                 <div className = "mt-auto">
-                    <BotonVerMed />
+                    <BotonVerMed id = {id} />
                 </div>
             </div>
         </div>

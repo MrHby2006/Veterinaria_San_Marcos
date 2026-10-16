@@ -7,7 +7,7 @@ interface CardConsejoProps {
     imagen: string;
 }
 
-function CardConsejo({nombre, imagen}: CardConsejoProps) {
+function CardConsejo({id, nombre, imagen}: CardConsejoProps) {
     return (
         <div className = "card shadow-sm" style = {{width: '20rem'}}>
             <img
@@ -23,7 +23,7 @@ function CardConsejo({nombre, imagen}: CardConsejoProps) {
                 </h5>
 
                 <div className = "mt-auto">
-                    <BotonVerConsejo />
+                    <BotonVerConsejo id = {id} />
                 </div>
             </div>
         </div>
