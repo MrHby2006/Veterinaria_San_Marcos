@@ -6,7 +6,7 @@ function BotonVolverMed() {
             to = {`/medicamentos`}
             className = "btn btn-primary"
         >
-            Ver Medicamento
+            Volver a Medicamentos
         </Link>
     )
 }

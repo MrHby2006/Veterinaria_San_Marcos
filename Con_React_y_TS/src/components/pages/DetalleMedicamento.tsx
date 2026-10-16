@@ -254,37 +254,56 @@ function DetalleMedicamento() {
         medicamento => medicamento.id === Number(id)
     )
 
+    // Si el id no existe (ej: /medicamento/99), mostramos un mensaje
+    if (!medicamento) {
+        return (
+            <div className = "container my-4">
+                <h2 className = "fw-bold" style = {{ color: "#2F3E46", fontSize: "40px" }}>Medicamento no encontrado</h2>
+
+                <div className = "mt-4">
+                    <BotonVolverMed />
+                </div>
+            </div>
+        )
+    }
+
     return (
-        <div>
-            <h1>Detalle del Medicamento</h1>
+        <div className = "container my-4">
+            <h2 className = "fw-bold" style = {{ color: "#2F3E46", fontSize: "40px" }}>Detalle del Medicamento</h2>
 
-            <img 
-                src={medicamento?.imagen}
-                alt={medicamento?.nombre_comercial}
-                style={{ width: '300px' }}
-            />
+            <section className = "row align-items-center g-4 mt-2 p-4 rounded text-white text-start" style = {{ backgroundColor: "#2A9D8F" }}>
+                <div className = "col-12 col-md-5">
+                    <div className = "bg-white rounded p-3">
+                        <img
+                            src = {medicamento.imagen}
+                            alt = {medicamento.nombre_comercial}
+                            className = "img-fluid w-100"
+                            style = {{ height: '300px', objectFit: 'contain' }}
+                        />
+                    </div>
+                </div>
 
-            <h2>{medicamento?.nombre_comercial}</h2>
+                <div className = "col-12 col-md-7">
+                    <h3 className = "fw-bold">{medicamento.nombre_comercial}</h3>
 
-            <p>{medicamento?.categoria}</p>
+                    <p className = "fs-5 mb-1">Categoría: {medicamento.categoria}</p>
 
-            <p>{medicamento?.principio_activo}</p>
+                    <p className = "fs-5 mb-1">Principio activo: {medicamento.principio_activo}</p>
 
-            <p>{medicamento?.presentacion}</p>
+                    <p className = "fs-5 mb-1">Presentación: {medicamento.presentacion}</p>
 
-            <p>{medicamento?.especie}</p>
+                    <p className = "fs-5 mb-1">Especie: {medicamento.especie}</p>
 
-            <p>{medicamento?.stock_actual}</p>
-            
-            <p>${medicamento?.precio_unitario}</p>
+                    <p className = "fs-5 mb-1">Stock actual: {medicamento.stock_actual}</p>
 
-            <div className="mt-auto">
-                <BotonAddCarro />
-            </div>
+                    <p className = "fs-3 fw-bold mt-3">Precio: ${medicamento.precio_unitario}</p>
 
-            <div className="mt-auto">
-                <BotonVolverMed />
-            </div>
+                    <div className = "d-flex flex-wrap gap-3 mt-3">
+                        <BotonAddCarro />
+                        <BotonVolverMed />
+                    </div>
+                </div>
+            </section>
         </div>
     )
 }

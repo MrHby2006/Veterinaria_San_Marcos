@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 
-// Por ahora lleva al inicio. Cuando exista el detalle, recibirá el id
-// y llevará a /consejos/${id}
-function BotonVerConsejo() {
+interface BotonProps {
+    id: number;
+}
+
+function BotonVerConsejo({id}: BotonProps) {
     return (
         <Link
-            to = "/"
+            to = {`/consejo/${id}`}
             className = "btn btn-primary"
         >
             Más información
