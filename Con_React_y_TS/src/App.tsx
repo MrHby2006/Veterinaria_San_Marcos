@@ -57,6 +57,21 @@ function App() {
           path = '/consejo/:id'
           element = {<DetalleConsejo />}
         />
+
+        <Route
+          path = '/carrito'
+          element = {<Carrito />}
+        />
+
+        <Route
+          path = '/login'
+          element = {<Login />}
+        />
+
+        <Route
+          path = '/registro'
+          element = {<Registro />}
+        />
       </Routes>
 
       <Footer />

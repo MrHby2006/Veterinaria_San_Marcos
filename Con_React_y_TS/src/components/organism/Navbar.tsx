@@ -41,15 +41,19 @@ function NavBar() {
 
                     <div className = "col-auto">
                         <div className = "navbar-nav text-nowrap small">
-                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/Usuario">
+                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/carrito">
+                                Carrito
+                            </Link>
+
+                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/usuario">
                                 Mis Citas
                             </Link>
 
-                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/Login">
+                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/login">
                                 Iniciar Sesión
                             </Link>
 
-                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/Registro">
+                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/registro">
                                 Registrarse
                             </Link>
                         </div>

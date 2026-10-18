@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function BotonAddCarro() {
     return (
         <Link
-            to = {`/`}
+            to = {`/carrito`}
             className = "btn btn-primary"
         >
             Añadir al Carrito
