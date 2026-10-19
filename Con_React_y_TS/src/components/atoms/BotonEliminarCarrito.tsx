@@ -1,14 +1,17 @@
-import { Link } from "react-router-dom";
+interface BotonEliminarCarritoProps {
+    alEliminar: () => void; // Recibe la función que quita el producto del carrito
+}
 
-// Por ahora lleva al inicio. Cuando exista el carrito, 
-// llevara a la página de /carrito para mostrar los productos en el
-function BotonEliminarCarrito() {
+// Es un button y no un Link porque no cambia de página, solo quita el producto de la tabla
+function BotonEliminarCarrito({alEliminar}: BotonEliminarCarritoProps) {
     return (
-        <Link
+        <button
+            type = "button"
             className = "btn btn-primary"
+            onClick = {alEliminar}
         >
-            <img src="/img/Iconos/Basurero.jpg" alt="basurero" />
-        </Link>
+            <img src = "/img/Iconos/Basurero.jpg" alt = "basurero" style = {{ width: "24px" }} />
+        </button>
     )
 }
 

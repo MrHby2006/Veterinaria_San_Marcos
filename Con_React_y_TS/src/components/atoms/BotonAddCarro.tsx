@@ -1,15 +1,18 @@
-import { Link } from "react-router-dom";
-
-// Por ahora lleva al inicio. Cuando exista el carrito, 
-// llevara a la página de /carrito para mostrar los productos en el
+// Por ahora solo muestra un mensaje, igual que el formulario de contacto.
+// Todavia no guarda el medicamento en la pagina de /carrito
 function BotonAddCarro() {
+    const agregarAlCarrito = () => {
+        alert("Medicamento agregado con éxito al carrito");
+    };
+
     return (
-        <Link
-            to = {`/carrito`}
+        <button
+            type = "button"
             className = "btn btn-primary"
+            onClick = {agregarAlCarrito}
         >
             Añadir al Carrito
-        </Link>
+        </button>
     )
 }
 

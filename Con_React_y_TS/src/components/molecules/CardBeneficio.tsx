@@ -6,7 +6,7 @@ interface CardBeneficioProps {
 
 function CardBeneficio({icono, titulo, descripcion}: CardBeneficioProps) {
     return (
-        <div className = "card shadow-sm" style = {{width: '16rem'}}>
+        <div className = "card shadow-sm h-100">
             <div className = "card-body">
                 <p style = {{fontSize: '40px'}}>
                     {icono}

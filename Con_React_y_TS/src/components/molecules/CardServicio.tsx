@@ -10,7 +10,7 @@ interface CardServicioProps {
 
 function CardServicio({nombre, categoria, descripcion, precio, imagen}: CardServicioProps) {
     return (
-        <div className = "card" style = {{width: '20rem'}}>
+        <div className = "card h-100">
             <img
                 src = {imagen}
                 className = "card-img-top"
@@ -31,12 +31,12 @@ function CardServicio({nombre, categoria, descripcion, precio, imagen}: CardServ
                     {descripcion}
                 </p>
 
-                <p className = "card-text fw-bold">
+                <p className = "card-text fw-bold text-center">
                     ${precio}
                 </p>
 
-                <div className = "mt-auto">
-                    <BotonReservarHora />
+                <div className = "mt-auto text-center">
+                    <BotonReservarHora servicio = {nombre} />
                 </div>
             </div>
         </div>
