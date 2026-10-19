@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import BotonEliminarCarrito from '../atoms/BotonEliminarCarrito';
 
-interface Medicamento {
-  id: number;
-  imagen: string;
-  nombre_comercial: string;
-  precio: number;
-}
-
-export const TablaCarrito: React.FC = () => {
-  const [medicamentos, setMedicamentos] = useState<Medicamento[]>([
-    { id: 1, imagen: '/img/Medicamentos/Amoxibay.jpg', nombre_comercial: 'Amoxibay 250mg', precio: 4.200 },
-    { id: 2, imagen: '/img/Medicamentos/Nexgard.jpg', nombre_comercial: 'Nexgard', precio: 9.500 },
+function Carrito() {
+  const [medicamentos, setMedicamentos] = useState([
+    { id: 1, imagen: '/img/Medicamentos/Amoxibay.jpg', nombre_comercial: 'Amoxibay 250mg', precio: 4200 },
+    { id: 2, imagen: '/img/Medicamentos/Nexgard.jpg', nombre_comercial: 'Nexgard', precio: 9500 },
   ]);
 
   const eliminarMedicamento = (id: number) => {
@@ -19,27 +12,37 @@ export const TablaCarrito: React.FC = () => {
   };
 
   return (
-    <table id="tablaCitas">
-      <thead>
-        <tr>
-          <th>Imagen</th>
-          <th>Nombre</th>
-          <th>Precio</th>
-          <th>Quitar</th>
-        </tr>
-      </thead>
-      <tbody id="cuerpoTabla">
-        {medicamentos.map((medicamento) => (
-          <tr key={medicamento.id}>
-            <td>{medicamento.imagen}</td>
-            <td>${medicamento.nombre_comercial}</td>
-            <td>{medicamento.precio}</td>
-            <td>
-              <BotonEliminarCarrito />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className = "container mt-4">
+      <h2 className="mb-4 text-center">Mi Carrito</h2>
+
+      <div className="table-responsive">
+        <table id="tablaCarrito" className="table table-bordered align-middle bg-white">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Quitar</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpoTabla">
+            {medicamentos.map((medicamento) => (
+              <tr key={medicamento.id}>
+                <td>
+                  <img src={medicamento.imagen} alt={medicamento.nombre_comercial} style={{ width: "60px" }} />
+                </td>
+                <td>{medicamento.nombre_comercial}</td>
+                <td>${medicamento.precio}</td>
+                <td>
+                  <BotonEliminarCarrito alEliminar={() => eliminarMedicamento(medicamento.id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
-};
+}
+
+export default Carrito;

@@ -55,9 +55,9 @@ function DetalleConsejo() {
     if (!consejo) {
         return (
             <div className = "container my-4">
-                <h2 className = "fw-bold" style = {{ color: "#2F3E46", fontSize: "40px" }}>Consejo no encontrado</h2>
+                <h2 className = "fw-bold text-center" style = {{ color: "#2F3E46", fontSize: "40px" }}>Consejo no encontrado</h2>
 
-                <div className = "mt-4">
+                <div className = "mt-4 text-center">
                     <BotonVolverConsejo />
                 </div>
             </div>
@@ -66,7 +66,7 @@ function DetalleConsejo() {
 
     return (
         <div className = "container my-4">
-            <h2 className = "fw-bold" style = {{ color: "#2F3E46", fontSize: "40px" }}>Detalle del Consejo</h2>
+            <h2 className = "fw-bold text-center" style = {{ color: "#2F3E46", fontSize: "40px" }}>Detalle del Consejo</h2>
 
             <section className = "row align-items-center g-4 mt-2 p-4 rounded text-white text-start" style = {{ backgroundColor: "#2A9D8F" }}>
                 <div className = "col-12 col-md-5">

@@ -14,7 +14,7 @@ interface CardMedProps {
 
 function CardMedicamento({id, categoria, nombre_comercial, principio_activo, presentacion, especie, stock_actual, precio_unitario, imagen}: CardMedProps) {
     return (
-        <div className = "card" style = {{width: '20rem'}}>
+        <div className = "card h-100">
             <img 
                 src = {imagen}
                 className = "card-img-top"
@@ -47,11 +47,11 @@ function CardMedicamento({id, categoria, nombre_comercial, principio_activo, pre
                     Stock actual: {stock_actual}
                 </p>
 
-                <p className = "card-text">
+                <p className = "card-text text-center">
                     Precio: ${precio_unitario}
                 </p>
 
-                <div className = "mt-auto">
+                <div className = "mt-auto text-center">
                     <BotonVerMed id = {id} />
                 </div>
             </div>

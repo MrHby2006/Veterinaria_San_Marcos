@@ -9,6 +9,11 @@ import Medicamentos from './components/pages/Medicamentos'
 import Footer from './components/organism/Footer'
 import DetalleMedicamento from './components/pages/DetalleMedicamento'
 import DetalleConsejo from './components/pages/DetalleConsejo'
+import Carrito from './components/pages/Carrito'
+import Citas from './components/pages/Citas'
+import Login from './components/pages/Login'
+import Registro from './components/pages/Registro'
+import ReservarHora from './components/pages/ReservarHora'
 
 
 function App() {
@@ -64,6 +69,11 @@ function App() {
         />
 
         <Route
+          path = '/citas'
+          element = {<Citas />}
+        />
+
+        <Route
           path = '/login'
           element = {<Login />}
         />
@@ -71,6 +81,11 @@ function App() {
         <Route
           path = '/registro'
           element = {<Registro />}
+        />
+
+        <Route
+          path = '/reservar/:servicio'
+          element = {<ReservarHora />}
         />
       </Routes>
 

@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 
-// Por ahora lleva al inicio. Cuando esté la sesión, guardará la cita.
-function BotonReservarHora() {
+interface BotonReservarHoraProps {
+    servicio: string; // Nombre del servicio que se va a reservar
+}
+
+// Lleva al formulario de reserva con el servicio en la URL
+function BotonReservarHora({servicio}: BotonReservarHoraProps) {
     return (
         <Link
-            to = "/"
+            to = {`/reservar/${servicio}`}
             className = "btn btn-primary"
         >
             Reservar hora

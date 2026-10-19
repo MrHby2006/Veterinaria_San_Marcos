@@ -24,7 +24,7 @@ function FormularioLogin() {
             return;
         }
 
-        if (contrasena.length < 7) {
+        if (contrasena.length < 8) {
             alert("la contraseña debe ser de mínimo 8 caracteres");
             return;
         }
@@ -44,15 +44,17 @@ function FormularioLogin() {
 
             <CampoFormulario
                 etiqueta="Contraseña"
-                tipo="text"
-                nombre="mensaje"
+                tipo="password"
+                nombre="contrasena"
                 valor={contrasena}
                 alCambiar={setContrasena}
             />
 
-            <button type="submit" className="btn btn-primary">
-                iniciar Sesión
-            </button>
+            <div className="text-center">
+                <button type="submit" className="btn btn-primary">
+                    Iniciar Sesión
+                </button>
+            </div>
         </form>
     );
 }
