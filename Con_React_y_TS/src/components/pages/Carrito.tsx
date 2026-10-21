@@ -15,17 +15,19 @@ function Carrito() {
     <div className = "container mt-4">
       <h2 className="mb-4 text-center">Mi Carrito</h2>
 
-      <div className="table-responsive">
-        <table id="tablaCarrito" className="table table-bordered align-middle bg-white">
-          <thead>
-            <tr>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Quitar</th>
-            </tr>
-          </thead>
-          <tbody id="cuerpoTabla">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8 col-lg-6">
+          <div className="table-responsive">
+            <table id="tablaCarrito" className="table table-bordered align-middle bg-white">
+              <thead>
+                <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Quitar</th>
+                </tr>
+              </thead>
+            <tbody id="cuerpoTabla">
             {medicamentos.map((medicamento) => (
               <tr key={medicamento.id}>
                 <td>
@@ -36,10 +38,12 @@ function Carrito() {
                 <td>
                   <BotonEliminarCarrito alEliminar={() => eliminarMedicamento(medicamento.id)} />
                 </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
