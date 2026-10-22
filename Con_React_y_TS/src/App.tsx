@@ -14,6 +14,10 @@ import Citas from './components/pages/Citas'
 import Login from './components/pages/Login'
 import Registro from './components/pages/Registro'
 import ReservarHora from './components/pages/ReservarHora'
+import Admin from './components/pages/Admin'
+import Admin_servicios from './components/pages/Admin_servicios'
+import Admin_usuarios from './components/pages/Admin_usuarios'
+import Recepcionista from './components/pages/Recepcionista'
 
 
 function App() {
@@ -86,6 +90,26 @@ function App() {
         <Route
           path = '/reservar/:servicio'
           element = {<ReservarHora />}
+        />
+
+        <Route
+          path = '/admin'
+          element = {<Admin />}
+        />
+
+        <Route
+          path = '/admin/servicios'
+          element = {<Admin_servicios />}
+        />
+
+        <Route
+          path = '/admin/usuarios'
+          element = {<Admin_usuarios />}
+        />
+
+        <Route
+          path = '/recepcionista'
+          element = {<Recepcionista />}
         />
       </Routes>
 
