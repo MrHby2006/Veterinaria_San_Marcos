@@ -45,6 +45,14 @@ function NavBar() {
                                 Mis Citas
                             </Link>
 
+                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/recepcionista">
+                                Recepción
+                            </Link>
+
+                            <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/admin">
+                                Admin
+                            </Link>
+
                             <Link className = "nav-link px-2" style = {{ color: "#E0E0E0" }} to = "/login">
                                 Iniciar Sesión
                             </Link>
