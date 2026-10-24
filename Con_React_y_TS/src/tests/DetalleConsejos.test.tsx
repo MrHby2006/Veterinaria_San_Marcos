@@ -7,7 +7,7 @@ import { MemoryRouter, Routes, Route } from "react-router-dom";
 import DetalleConsejo from "../components/pages/DetalleConsejo";
 
 // Desafío de la PPT: comprobar que el Detalle de los Consejos tiene las clases responsivas de Bootstrap
-test("Contacto tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
+test("DetalleConsejos tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
 
   render(
     // Usamos MemoryRouter con un path inicial que incluya un id válido (ej: /1) para que useParams funcione

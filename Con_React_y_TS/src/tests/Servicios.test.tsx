@@ -7,7 +7,7 @@ import { MemoryRouter } from "react-router-dom";
 import Servicios from "../components/pages/Servicios";
 
 // Desafío de la PPT: comprobar que Servicios tiene las clases responsivas de Bootstrap
-test("Contacto tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
+test("Servicios tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
 
   render(
     <MemoryRouter>

@@ -6,7 +6,7 @@ import { render } from "@testing-library/react";
 import Nosotros from "../components/pages/Nosotros";
 
 // Desafío de la PPT: comprobar que Nosotros tiene las clases responsivas de Bootstrap
-test("Contacto tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
+test("Nosotros tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
 
   // container es el pedazo de página donde se dibujó el componente
   const { container } = render(<Nosotros />);

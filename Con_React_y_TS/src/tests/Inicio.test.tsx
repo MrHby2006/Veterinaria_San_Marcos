@@ -7,7 +7,7 @@ import { MemoryRouter } from "react-router-dom";
 import Inicio from "../components/pages/Inicio";
 
 // Desafío de la PPT: comprobar que Inicio tiene las clases responsivas de Bootstrap
-test("Contacto tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
+test("Inicio tiene las clases responsivas col-12, col-md-8 y col-lg-6", () => {
 
   render(
     <MemoryRouter>
