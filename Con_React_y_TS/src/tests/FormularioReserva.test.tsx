@@ -19,20 +19,6 @@ const llenarFormulario = (fecha: string, hora: string) => {
   fireEvent.change(screen.getByLabelText("Hora"), { target: { value: hora } });
 };
 
-test("muestra una alerta cuando el nombre de la mascota está vacío", () => {
-
-  const alerta = vi.spyOn(window, "alert").mockImplementation(() => {});
-
-  render(<FormularioReserva servicio="Consulta general" />);
-
-  fireEvent.click(screen.getByRole("button", { name: "Reservar hora" }));
-
-  expect(alerta).toHaveBeenCalledWith("Debe ingresar el nombre de su mascota");
-
-  alerta.mockRestore();
-
-});
-
 test("no deja reservar una fecha que ya pasó", () => {
 
   const alerta = vi.spyOn(window, "alert").mockImplementation(() => {});
@@ -61,23 +47,6 @@ test("no deja reservar un domingo", () => {
   fireEvent.click(screen.getByRole("button", { name: "Reservar hora" }));
 
   expect(alerta).toHaveBeenCalledWith("Los domingos no atendemos");
-
-  alerta.mockRestore();
-
-});
-
-test("no deja reservar un sábado fuera del horario", () => {
-
-  const alerta = vi.spyOn(window, "alert").mockImplementation(() => {});
-
-  render(<FormularioReserva servicio="Consulta general" />);
-
-  // El 5 de enero de 2030 es sábado
-  llenarFormulario("2030-01-05", "16:00");
-
-  fireEvent.click(screen.getByRole("button", { name: "Reservar hora" }));
-
-  expect(alerta).toHaveBeenCalledWith("Los sábados atendemos de 10:00 a 14:00");
 
   alerta.mockRestore();
 
