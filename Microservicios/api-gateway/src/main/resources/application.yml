@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins: "http://localhost:5173"
+                allowed-methods: "*"
+                allowed-headers: "*"
+          routes:
+            - id: usuarios
+              uri: lb://usuarios
+              predicates:
+                - Path=/api/usuarios/**
+
+            - id: contenido
+              uri: lb://contenido
+              predicates:
+                - Path=/api/consejos/**,/api/contactos/**
+
+            - id: catalogo
+              uri: lb://catalogo
+              predicates:
+                - Path=/api/servicios/**,/api/medicamentos/**,/api/especies/**
+
+            - id: citas
+              uri: lb://citas
+              predicates:
+                - Path=/api/citas/**,/api/mascotas/**,/api/medicos/**
+
+            - id: ventas
+              uri: lb://ventas
+              predicates:
+                - Path=/api/compras/**
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
