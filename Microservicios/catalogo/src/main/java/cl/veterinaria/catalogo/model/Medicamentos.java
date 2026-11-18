@@ -20,35 +20,35 @@ import lombok.NoArgsConstructor;
 public class Medicamentos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Id único del medicamento", expample = "3")
+    @Schema(description = "Id único del medicamento", example = "3")
     private Integer id;
 
     @Column(nullable = false)
-    @Schema(description = "Tipo de medicamento", expample = "Antibióticos")
+    @Schema(description = "Tipo de medicamento", example = "Antibióticos")
     private String categoria;
 
     @Column(nullable = false, unique = true)
-    @Schema(description = "Nombre con el que se distribuye el medicamento", expample = "Amoxibay 250mg")
+    @Schema(description = "Nombre con el que se distribuye el medicamento", example = "Amoxibay 250mg")
     private String nombre_comercial;
 
     @Column(nullable = false)
-    @Schema(description = "Principio activo del medicamento", expample = "Amoxicilina")
+    @Schema(description = "Principio activo del medicamento", example = "Amoxicilina")
     private String principio_activo;
 
     @Column(nullable = false)
-    @Schema(description = "Presentación del medicamento", expample = "Blíster 10 comp.")
+    @Schema(description = "Presentación del medicamento", example = "Blíster 10 comp.")
     private String presentación;
 
     @Column(nullable = false)
-    @Schema(description = "Especie a la que se le puede dar el medicamento", expample = "Perro / Gato")
+    @Schema(description = "Especie a la que se le puede dar el medicamento", example = "Perro / Gato")
     private String especie;
 
     @Column(nullable = false)
-    @Schema(description = "Cantidad de stock que queda del medicamento", expample = "45")
+    @Schema(description = "Cantidad de stock que queda del medicamento", example = "45")
     private String stock_actual;
 
     @Column(nullable = false)
-    @Schema(description = "Precio del medicamento", expample = "42000")
+    @Schema(description = "Precio del medicamento", example = "42000")
     private String precio_unitario;
 
     @Column(nullable = false)

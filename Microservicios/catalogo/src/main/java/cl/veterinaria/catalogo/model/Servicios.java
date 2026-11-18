@@ -20,23 +20,23 @@ import lombok.NoArgsConstructor;
 public class Servicios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Id único del servicio", expample = "2")
+    @Schema(description = "Id único del servicio", example = "2")
     private Integer id;
 
     @Column(nullable = false, unique = true)
-    @Schema(description = "Nombre del servicio", expample = "Consulta General")
+    @Schema(description = "Nombre del servicio", example = "Consulta General")
     private String nombre;
 
     @Column(nullable = false)
-    @Schema(description = "Categoria en la que entra el servicio", expample = "Consultas")
+    @Schema(description = "Categoria en la que entra el servicio", example = "Consultas")
     private String categoria;
 
     @Column(nullable = false)
-    @Schema(description = "Descripción detallada de lo que trata el servicio", expample = "Revisión completa del estado de salud de tu mascota.")
+    @Schema(description = "Descripción detallada de lo que trata el servicio", example = "Revisión completa del estado de salud de tu mascota.")
     private String descripcion;
 
     @Column(nullable = false)
-    @Schema(description = "Precio del servicio", expample = "15000")
+    @Schema(description = "Precio del servicio", example = "15000")
     private String precio;
 
     @Column(nullable = false)
