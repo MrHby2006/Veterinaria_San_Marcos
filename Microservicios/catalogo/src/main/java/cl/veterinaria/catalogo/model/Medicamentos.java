@@ -27,29 +27,29 @@ public class Medicamentos {
     @Schema(description = "Tipo de medicamento", example = "Antibióticos")
     private String categoria;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "nombre_comercial", nullable = false, unique = true)
     @Schema(description = "Nombre con el que se distribuye el medicamento", example = "Amoxibay 250mg")
-    private String nombre_comercial;
+    private String nombreComercial;
 
-    @Column(nullable = false)
+    @Column(name = "principio_activo", nullable = false)
     @Schema(description = "Principio activo del medicamento", example = "Amoxicilina")
-    private String principio_activo;
+    private String principioActivo;
 
     @Column(nullable = false)
     @Schema(description = "Presentación del medicamento", example = "Blíster 10 comp.")
-    private String presentación;
+    private String presentacion;
 
     @Column(nullable = false)
     @Schema(description = "Especie a la que se le puede dar el medicamento", example = "Perro / Gato")
     private String especie;
 
-    @Column(nullable = false)
+    @Column(name = "stock_actual", nullable = false)
     @Schema(description = "Cantidad de stock que queda del medicamento", example = "45")
-    private String stock_actual;
+    private Integer stockActual;
 
-    @Column(nullable = false)
+    @Column(name = "precio_unitario", nullable = false)
     @Schema(description = "Precio del medicamento", example = "42000")
-    private String precio_unitario;
+    private Integer precioUnitario;
 
     @Column(nullable = false)
     @Schema(description = "Imagen del medicamento, es la ruta de la imagen")

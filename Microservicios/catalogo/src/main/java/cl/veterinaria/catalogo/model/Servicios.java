@@ -37,7 +37,7 @@ public class Servicios {
 
     @Column(nullable = false)
     @Schema(description = "Precio del servicio", example = "15000")
-    private String precio;
+    private Integer precio;
 
     @Column(nullable = false)
     @Schema(description = "Imagen del servicio, es la ruta de la imagen")
