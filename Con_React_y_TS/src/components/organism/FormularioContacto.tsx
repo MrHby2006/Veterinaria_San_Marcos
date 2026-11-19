@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CampoFormulario from "../molecules/CampoFormulario";
+import { API, leerError } from "../../data/api";
 
 function FormularioContacto() {
 
@@ -7,9 +8,10 @@ function FormularioContacto() {
     const [nombre, setNombre] = useState("");
     const [correo, setCorreo] = useState("");
     const [mensaje, setMensaje] = useState("");
+    const [enviando, setEnviando] = useState(false);
 
-    // Valida los datos al enviar el formulario
-    const manejarEnvio = (e: React.SubmitEvent<HTMLFormElement>) => {
+    // Valida los datos y los envía al backend (microservicio contenido)
+    const manejarEnvio = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault(); // Evita recargar la página
 
         if (nombre.trim() === "") {
@@ -29,7 +31,36 @@ function FormularioContacto() {
             alert("Debe ingresar un mensaje");
             return;
         }
-        alert("Mensaje enviado correctamente. Te responderemos a la brevedad.");
+
+        setEnviando(true);
+
+        // No hace falta iniciar sesión: cualquiera puede escribir a la clínica
+        try {
+            const respuesta = await fetch(API + "/api/contactos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nombre: nombre.trim(),
+                    correo: correo.trim(),
+                    mensaje: mensaje.trim(),
+                }),
+            });
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
+            }
+            alert("Mensaje enviado correctamente. Te responderemos a la brevedad.");
+            // Deja el formulario vacío para otro mensaje
+            setNombre("");
+            setCorreo("");
+            setMensaje("");
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        } finally {
+            setEnviando(false);
+        }
     };
 
     return (
@@ -60,8 +91,8 @@ function FormularioContacto() {
             />
 
             <div className = "text-center">
-                <button type = "submit" className = "btn btn-primary">
-                    Enviar mensaje
+                <button type = "submit" className = "btn btn-primary" disabled = {enviando}>
+                    {enviando ? "Enviando..." : "Enviar mensaje"}
                 </button>
             </div>
 

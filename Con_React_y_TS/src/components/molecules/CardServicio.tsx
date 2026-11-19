@@ -1,5 +1,15 @@
 import BotonReservarHora from "../atoms/BotonReservarHora";
 
+// Datos de cada servicio que manda el microservicio catalogo (GET /api/servicios)
+export interface Servicio {
+    id: number;
+    nombre: string;
+    categoria: string;
+    descripcion: string;
+    precio: number;
+    imagen: string;
+}
+
 interface CardServicioProps {
     nombre: string;
     categoria: string;

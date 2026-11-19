@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { API } from "../../data/api";
 
 // Datos de cada especie que manda el microservicio catalogo
-interface Especie {
+export interface Especie {
     id: number;
     nombre: string;
 }

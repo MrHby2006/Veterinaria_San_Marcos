@@ -1,5 +1,18 @@
 import BotonVerMed from "../atoms/BotonVerMed";
 
+// Datos de cada medicamento que manda el microservicio catalogo (GET /api/medicamentos)
+export interface Medicamento {
+    id: number;
+    categoria: string;
+    nombreComercial: string;
+    principioActivo: string;
+    presentacion: string;
+    especies: { id: number; nombre: string }[]; // Ej: [{ id: 1, nombre: "Perro" }, { id: 2, nombre: "Gato" }]
+    stockActual: number;
+    precioUnitario: number;
+    imagen: string;
+}
+
 interface CardMedProps {
     id: number;
     categoria: string;
