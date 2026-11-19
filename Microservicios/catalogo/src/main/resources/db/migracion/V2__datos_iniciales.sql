@@ -1,0 +1,92 @@
+-- Los mismos datos que estaban fijos en el front (mismos ids y mismo orden)
+
+-- Especies del select de Reservar hora: 1 Perro, 2 Gato, 3 Conejo, 4 Ave
+INSERT INTO especie (nombre) VALUES
+('Perro'),
+('Gato'),
+('Conejo'),
+('Ave');
+
+-- Servicios (Servicios.tsx y Admin_servicios.tsx). citas busca el servicio por este nombre
+INSERT INTO servicio (nombre, descripcion, categoria, precio, imagen) VALUES
+('Consulta general', 'Revisión completa del estado de salud de tu mascota.', 'Consultas', 15000, '/img/Servicios/consulta.jpg'),
+('Consulta de urgencia', 'Atención prioritaria fuera del horario habitual.', 'Consultas', 25000, '/img/Servicios/urgencia.jpg'),
+('Control post-operatorio', 'Revisión después de una cirugía importante.', 'Consultas', 10000, '/img/Servicios/postoperatorio.jpg'),
+('Consulta ave o conejo', 'Consulta especializada para aves y conejos.', 'Consultas', 18000, '/img/Servicios/ave-conejo.jpg'),
+('Segunda opinión médica', 'Evaluación adicional, requiere ficha clínica previa.', 'Consultas', 20000, '/img/Servicios/segunda-opinion.jpg'),
+('Vacuna antirrábica canina', 'Vacuna obligatoria por ley para la prevención de la rabia.', 'Vacunación', 12000, '/img/Servicios/vacuna-perro.jpg'),
+('Vacuna sextuple canina', 'Refuerzo anual contra 6 enfermedades caninas.', 'Vacunación', 18000, '/img/Servicios/vacuna-cachorro.jpg'),
+('Vacuna bivalente felina', 'Refuerzo anual para gatos.', 'Vacunación', 15000, '/img/Servicios/vacuna-gato.jpg'),
+('Vacuna triple felina', 'Protege contra tres enfermedades felinas.', 'Vacunación', 17000, '/img/Servicios/vacuna-gato.jpg'),
+('Vacuna Bordetella canina', 'Previene la tos de las perreras.', 'Vacunación', 14000, '/img/Servicios/vacuna-perro.jpg'),
+('Vacuna antirrábica felina', 'Vacuna obligatoria contra la rabia en gatos.', 'Vacunación', 12000, '/img/Servicios/vacuna-gato.jpg'),
+('Esterilización hembra canina', 'Cirugía programada, incluye anestesia y hospitalización 24h.', 'Cirugía', 80000, '/img/Servicios/esterilizacion-perro.jpg'),
+('Esterilización macho canino', 'Cirugía programada, incluye anestesia.', 'Cirugía', 60000, '/img/Servicios/esterilizacion-perro.jpg'),
+('Esterilización hembra felina', 'Incluye anestesia y hospitalización 12h.', 'Cirugía', 65000, '/img/Servicios/esterilizacion-gato.jpg'),
+('Esterilización macho felino', 'Cirugía programada, incluye anestesia.', 'Cirugía', 50000, '/img/Servicios/esterilizacion-gato.jpg'),
+('Extirpación de tumor cutáneo', 'Precio referencial, varía según el tamaño.', 'Cirugía', 120000, '/img/Servicios/cirugia.jpg'),
+('Cesárea de urgencia', 'Cirugía de urgencia para partos complicados.', 'Cirugía', 180000, '/img/Servicios/cesarea.jpg'),
+('Desparasitación interna (menos de 10kg)', 'Tratamiento contra parásitos internos.', 'Desparasitación', 8000, '/img/Servicios/desparasitacion-perro.jpg'),
+('Desparasitación interna (10 a 25kg)', 'Tratamiento contra parásitos internos.', 'Desparasitación', 9500, '/img/Servicios/desparasitacion-perro.jpg'),
+('Desparasitación interna (más de 25kg)', 'Tratamiento contra parásitos internos.', 'Desparasitación', 11000, '/img/Servicios/desparasitacion-perro.jpg'),
+('Desparasitación interna felina', 'Tratamiento contra parásitos internos para gatos.', 'Desparasitación', 8000, '/img/Servicios/desparasitacion-gato.jpg'),
+('Antiparasitario externo (pipeta)', 'Incluye la aplicación de la pipeta.', 'Desparasitación', 7500, '/img/Servicios/pipeta.jpg'),
+('Hemograma completo', 'Examen de sangre para revisar el estado general del paciente.', 'Exámenes', 22000, '/img/Servicios/laboratorio.jpg'),
+('Perfil bioquímico completo', 'Resultado en 24 a 48 horas.', 'Exámenes', 35000, '/img/Servicios/laboratorio.jpg'),
+('Radiografía (1 proyección)', 'Diagnóstico por imagen.', 'Exámenes', 28000, '/img/Servicios/radiografia.jpg'),
+('Ecografía abdominal', 'Diagnóstico por imagen no invasivo.', 'Exámenes', 45000, '/img/Servicios/ecografia.jpg'),
+('Test de leishmaniasis', 'Examen de detección para perros.', 'Exámenes', 18000, '/img/Servicios/laboratorio.jpg'),
+('Corte de uñas', 'Servicio rápido de higiene y cuidado de uñas.', 'Otros', 5000, '/img/Servicios/unas.jpg'),
+('Limpieza dental', 'Requiere anestesia.', 'Otros', 55000, '/img/Servicios/dental.jpg'),
+('Microchip de identificación', 'Incluye registro en el sistema nacional.', 'Otros', 15000, '/img/Servicios/microchip.jpg'),
+('Hospitalización (por día)', 'Incluye monitoreo y alimentación básica.', 'Otros', 30000, '/img/Servicios/hospitalizacion.jpg');
+
+-- Medicamentos (DetalleMedicamento.tsx)
+INSERT INTO medicamento (nombre_comercial, principio_activo, presentacion, categoria, precio_unitario, stock_actual, imagen) VALUES
+('Amoxibay 250mg', 'Amoxicilina', 'Blíster 10 comp.', 'Antibióticos', 4200, 45, '/img/Medicamentos/Amoxibay.jpg'),
+('Enrox 50mg', 'Enrofloxacino', 'Blíster 10 comp.', 'Antibióticos', 6800, 30, '/img/Medicamentos/Ernox.jpg'),
+('Metrobay 250mg', 'metronidazol', 'Blíster 10 comp.', 'Antibióticos', 3900, 28, '/img/Medicamentos/Metrobay.jpg'),
+('Nexgard', 'Afoxolaner', 'Masticable 1 unid.', 'Antiparasitarios', 9500, 60, '/img/Medicamentos/Nexgard.jpg'),
+('Bravecto', 'Fluralaner', 'Masticable 1 unid.', 'Antiparasitarios', 18900, 40, '/img/Medicamentos/Bravecto.jpg'),
+('Revolution Plus', 'Selamectina + Sarolaner', 'Pipeta 1 unid.', 'Antiparasitarios', 14500, 35, '/img/Medicamentos/Revolution_Plus.jpg'),
+('Drontal Plus', 'Praziquantel + Pamoato', 'Comprimido 1 unid.', 'Antiparasitarios', 3200, 80, '/img/Medicamentos/Drontal_Plus.jpg'),
+('Milbemax Gato', 'Milbemicina + Praziq', 'Comprimido 2 unid.', 'Antiparasitarios', 6800, 50, '/img/Medicamentos/Milbemax_Gato.jpg'),
+('Meloxicam 1mg', 'Meloxicam', 'Blíster 10 comp.', 'Antiinflamatorios', 4500, 55, '/img/Medicamentos/Meloxicam_1mg.jpg'),
+('Carprofen 50mg', 'Carprofeno', 'Blíster 10 comp.', 'Antiinflamatorios', 9800, 30, '/img/Medicamentos/Carprofen_50mg.jpg'),
+('Clorhexidina Shampoo', 'Clorhexidina 2%', 'Frasco 250ml', 'Dermatología', 8900, 25, '/img/Medicamentos/Clorhexidina.jpg'),
+('Malaseb Shampoo', 'Miconazol + Clorhex', 'Frasco 250ml', 'Dermatología', 12500, 20, '/img/Medicamentos/Malaseb.jpg'),
+('Apoquel 16mg', 'Oclacitinib', 'Blíster 10 comp.', 'Dermatología', 22000, 18, '/img/Medicamentos/Apoquel.jpg'),
+('Probifor', 'Bacillus clausii', 'Sobre 5ml x10', 'Digestivo', 5600, 40, '/img/Medicamentos/Probifor.jpg'),
+('Omeprazol 10mg vet', 'Omeprazol', 'Blíster 10 comp.', 'Digestivo', 3800, 35, '/img/Medicamentos/Omeprazol_10mg.jpg'),
+('Vetmedin 2.5mg', 'Pimobendan', 'Blíster 10 comp.', 'Cardíaco', 28000, 15, '/img/Medicamentos/Vetmedin.jpg'),
+('Tramadol 50mg vet', 'Tramadol', 'Blíster 10 comp.', 'Analgésicos', 5200, 22, '/img/Medicamentos/Tramadol.jpg'),
+('Nobivac DHPPi', 'Vacuna plivalente', 'Vial 1 dosis', 'Vacunas', 8500, 48, '/img/Medicamentos/Nobivac.jpg'),
+('Nobivac Rabies', 'Vacuna antirrábica', 'Vial 1 dosis', 'Vacunas', 5800, 60, '/img/Medicamentos/Rabies.jpg'),
+('Felocell CVR', 'Vacuna triple felina', 'Vial 1 dosis', 'Vacunas', 7200, 36, '/img/Medicamentos/Felocell.jpg'),
+('Omega vet 3-6-9', 'Ácidos grasos omega', 'Frasco 100ml', 'Suplementos', 9900, 30, '/img/Medicamentos/Omega.jpg'),
+('Condrovet forte', 'Condroitín + Glucos', 'Blíster 30 comp.', 'Suplementos', 14500, 25, '/img/Medicamentos/Condrovet.jpg');
+
+-- Especies de cada medicamento (1 = Perro, 2 = Gato)
+INSERT INTO medicamento_especie (id_medicamento, id_especie) VALUES
+(1, 1), (1, 2),
+(2, 1), (2, 2),
+(3, 1), (3, 2),
+(4, 1),
+(5, 1),
+(6, 2),
+(7, 1),
+(8, 2),
+(9, 1), (9, 2),
+(10, 1),
+(11, 1), (11, 2),
+(12, 1), (12, 2),
+(13, 1),
+(14, 1), (14, 2),
+(15, 1), (15, 2),
+(16, 1),
+(17, 1),
+(18, 1),
+(19, 1), (19, 2),
+(20, 2),
+(21, 1), (21, 2),
+(22, 1);
