@@ -1,64 +1,145 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectMedico from "../atoms/SelectMedico";
+import type { Medico } from "../atoms/SelectMedico";
+import { API, leerError } from "../../data/api";
+import { obtenerUsuario } from "../../data/sesion";
+
+// Datos de cada cita pagada que manda el microservicio citas
+interface CitaRecepcion {
+    id: number;
+    correoCliente: string;
+    nombreMascota: string;
+    nombreServicio: string;
+    fecha: string;
+    hora: string;
+    precio: number;
+    estado: string;
+    idMedico: number | null; // null = todavía no tiene médico
+    nombreMedico: string;
+}
+
+// Datos de cada medicamento pagado que manda el microservicio ventas
+interface Pedido {
+    id: number;
+    correoCliente: string;
+    nombreMedicamento: string;
+    cantidad: number;
+    subtotal: number;
+    entregado: boolean;
+}
+
+// Pide datos al backend y los guarda con la función que se le pase
+function cargar(url: string, guardar: (datos: []) => void, mensaje: string) {
+    fetch(API + url)
+        .then((respuesta) => {
+            if (!respuesta.ok) {
+                throw new Error(mensaje);
+            }
+            return respuesta.json();
+        })
+        .then((datos) => guardar(datos))
+        .catch(() => alert(mensaje));
+}
 
 function Recepcionista() {
-    // Estado con las citas que pidieron los clientes (sin base de datos, se reinicia al recargar)
-    // medico "" significa que todavía no se le asigna un médico
-    const [citas, setCitas] = useState([
-        { id: 1, cliente: "cliente@sanmarcos.cl", servicio: "Consulta general", precio: 15000, estado: "Pendiente", medico: "", pago: "Pagado" },
-        { id: 2, cliente: "maria@correo.cl", servicio: "Vacuna triple felina", precio: 17000, estado: "Pendiente", medico: "", pago: "Pagado" },
-        { id: 3, cliente: "juan@correo.cl", servicio: "Limpieza dental", precio: 55000, estado: "Confirmada", medico: "Dr. Felipe Soto", pago: "Pagado" },
-        { id: 4, cliente: "pedro@correo.cl", servicio: "Corte de uñas", precio: 5000, estado: "Pendiente", medico: "", pago: "Por pagar" },
-    ]);
+    const usuario = obtenerUsuario();
+    const puedeEntrar = usuario !== null && (usuario.rol === "Recepcionista" || usuario.rol === "Administrador");
 
-    // La recepcionista solo ve las citas que el cliente ya pagó
-    const citasPagadas = citas.filter((cita) => cita.pago === "Pagado");
+    // El backend solo manda las citas que el cliente ya pagó
+    const [citas, setCitas] = useState<CitaRecepcion[]>([]);
+    const [medicos, setMedicos] = useState<Medico[]>([]);
+    const [pedidos, setPedidos] = useState<Pedido[]>([]);
 
-    // Guarda el médico elegido en el selector de una cita
-    const asignarMedico = (id: number, nuevoMedico: string) => {
+    // Consulta todo al abrir la página
+    useEffect(() => {
+        const usuarioActual = obtenerUsuario();
+        if (usuarioActual === null || usuarioActual.rol === "Cliente") {
+            return;
+        }
+        // Se manda ?idUsuario= para que el backend revise que sea personal de la clínica
+        cargar("/api/citas/pagadas?idUsuario=" + usuarioActual.id, setCitas, "No se pudieron cargar las citas");
+        cargar("/api/medicos", setMedicos, "No se pudieron cargar los médicos");
+        cargar("/api/compras/pagadas?idUsuario=" + usuarioActual.id, setPedidos, "No se pudieron cargar los medicamentos");
+    }, []);
+
+    // Reemplaza en la tabla la cita que cambió por la que devolvió el backend
+    const actualizarCita = (citaNueva: CitaRecepcion) => {
         setCitas(citas.map((cita) => {
-            if (cita.id === id) {
-                return { id: cita.id, cliente: cita.cliente, servicio: cita.servicio, precio: cita.precio, estado: cita.estado, medico: nuevoMedico, pago: cita.pago };
+            if (cita.id === citaNueva.id) {
+                return citaNueva;
             }
             return cita;
         }));
     };
 
-    // Cambia el estado de una cita (Confirmada o Cancelada)
-    const cambiarEstado = (id: number, nuevoEstado: string) => {
-        setCitas(citas.map((cita) => {
-            if (cita.id === id) {
-                return { id: cita.id, cliente: cita.cliente, servicio: cita.servicio, precio: cita.precio, estado: nuevoEstado, medico: cita.medico, pago: cita.pago };
+    // Envía un PUT de citas y actualiza la fila (lo usan asignar, confirmar y cancelar).
+    // Siempre se agrega ?idUsuario= de la recepcionista
+    const cambiarCita = async (url: string) => {
+        try {
+            const respuesta = await fetch(API + url + "?idUsuario=" + usuario?.id, { method: "PUT" });
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
             }
-            return cita;
-        }));
+            actualizarCita(await respuesta.json());
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        }
     };
 
-    // Estado con los medicamentos que compraron los clientes en el carrito
-    // retiro = si el cliente ya vino a buscarlo (En espera de retiro o Entregado)
-    const [pedidos, setPedidos] = useState([
-        { id: 1, cliente: "cliente@sanmarcos.cl", medicamento: "Amoxibay 250mg", precio: 4200, pago: "Pagado", retiro: "En espera de retiro" },
-        { id: 2, cliente: "maria@correo.cl", medicamento: "Nexgard", precio: 9500, pago: "Pagado", retiro: "En espera de retiro" },
-        { id: 3, cliente: "juan@correo.cl", medicamento: "Apoquel 16mg", precio: 22000, pago: "Pagado", retiro: "Entregado" },
-        { id: 4, cliente: "pedro@correo.cl", medicamento: "Bravecto", precio: 18900, pago: "Por pagar", retiro: "En espera de retiro" },
-    ]);
+    // Guarda el médico elegido en el selector. El backend revisa que esté libre a esa hora
+    const asignarMedico = (id: number, idMedico: string) => {
+        if (idMedico === "") {
+            return;
+        }
+        cambiarCita("/api/citas/" + id + "/medico/" + idMedico);
+    };
 
-    // Igual que las citas, solo se ven los medicamentos que ya se pagaron
-    const pedidosPagados = pedidos.filter((pedido) => pedido.pago === "Pagado");
+    const confirmarCita = (id: number) => {
+        cambiarCita("/api/citas/" + id + "/confirmar");
+    };
+
+    // Si cancela la clínica, al cliente se le devuelve todo lo que pagó.
+    // El backend sabe que cancela la clínica por el rol de quien lo pide
+    const cancelarCita = (id: number, precio: number) => {
+        if (!confirm("Se le devolverán $" + precio + " al cliente. ¿Seguro que quiere cancelar esta cita?")) {
+            return;
+        }
+        cambiarCita("/api/citas/" + id + "/cancelar");
+    };
 
     // Marca un medicamento como entregado al cliente
-    // (con una base de datos, aquí también se quitaría del carrito del cliente)
-    const marcarEntregado = (id: number) => {
-        setPedidos(pedidos.map((pedido) => {
-            if (pedido.id === id) {
-                return { id: pedido.id, cliente: pedido.cliente, medicamento: pedido.medicamento, precio: pedido.precio, pago: pedido.pago, retiro: "Entregado" };
+    const marcarEntregado = async (id: number) => {
+        try {
+            const respuesta = await fetch(API + "/api/compras/" + id + "/entregar?idUsuario=" + usuario?.id, { method: "PUT" });
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
             }
-            return pedido;
-        }));
+            const pedidoNuevo: Pedido = await respuesta.json();
+            setPedidos(pedidos.map((pedido) => {
+                if (pedido.id === pedidoNuevo.id) {
+                    // El backend no manda el correo al entregar, así que se mantiene el que ya estaba
+                    return { id: pedido.id, correoCliente: pedido.correoCliente, nombreMedicamento: pedido.nombreMedicamento, cantidad: pedido.cantidad, subtotal: pedido.subtotal, entregado: true };
+                }
+                return pedido;
+            }));
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        }
     };
 
     // Pestaña que se está viendo (Citas o Medicamentos)
     const [pestana, setPestana] = useState("Citas");
+
+    if (!puedeEntrar) {
+        return (
+            <div className = "container my-4">
+                <h2 className = "fw-bold text-center" style = {{ color: "#2F3E46", fontSize: "40px" }}>📋 Recepción</h2>
+                <p className = "text-center mt-4">Solo las recepcionistas pueden ver esta página. <a href = "/login">Iniciar sesión</a></p>
+            </div>
+        )
+    }
 
     return (
         <div className = "container my-4">
@@ -90,23 +171,25 @@ function Recepcionista() {
                                         <tr>
                                             <th>Cliente</th>
                                             <th>Medicamento</th>
-                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Total</th>
                                             <th>Estado</th>
                                             <th>Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {pedidosPagados.map((pedido) => (
+                                        {pedidos.map((pedido) => (
                                             <tr key = {pedido.id}>
-                                                <td>{pedido.cliente}</td>
-                                                <td>{pedido.medicamento}</td>
-                                                <td>${pedido.precio}</td>
-                                                <td className = {pedido.retiro === "Entregado" ? "text-success fw-bold" : ""}>{pedido.retiro}</td>
+                                                <td>{pedido.correoCliente}</td>
+                                                <td>{pedido.nombreMedicamento}</td>
+                                                <td>{pedido.cantidad}</td>
+                                                <td>${pedido.subtotal}</td>
+                                                <td className = {pedido.entregado ? "text-success fw-bold" : ""}>{pedido.entregado ? "Entregado" : "En espera de retiro"}</td>
                                                 <td>
-                                                    {pedido.retiro === "En espera de retiro" ? (
-                                                        <button className = "btn btn-primary btn-sm" onClick = {() => marcarEntregado(pedido.id)}>Marcar entregado</button>
-                                                    ) : (
+                                                    {pedido.entregado ? (
                                                         <span className = "text-muted">Sin acciones</span>
+                                                    ) : (
+                                                        <button className = "btn btn-primary btn-sm" onClick = {() => marcarEntregado(pedido.id)}>Marcar entregado</button>
                                                     )}
                                                 </td>
                                             </tr>
@@ -130,7 +213,9 @@ function Recepcionista() {
                                     <thead>
                                         <tr>
                                             <th>Cliente</th>
+                                            <th>Mascota</th>
                                             <th>Servicio</th>
+                                            <th>Fecha</th>
                                             <th>Precio</th>
                                             <th>Médico</th>
                                             <th>Estado</th>
@@ -138,21 +223,24 @@ function Recepcionista() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {citasPagadas.map((cita) => (
+                                        {citas.map((cita) => (
                                             <tr key = {cita.id}>
-                                                <td>{cita.cliente}</td>
-                                                <td>{cita.servicio}</td>
+                                                <td>{cita.correoCliente}</td>
+                                                <td>{cita.nombreMascota}</td>
+                                                <td>{cita.nombreServicio}</td>
+                                                <td>{cita.fecha} {cita.hora}</td>
                                                 <td>${cita.precio}</td>
 
                                                 {/* Solo se puede elegir médico mientras la cita está pendiente */}
                                                 <td>
                                                     {cita.estado === "Pendiente" ? (
                                                         <SelectMedico
-                                                            valor = {cita.medico}
-                                                            alCambiar = {(medico) => asignarMedico(cita.id, medico)}
+                                                            valor = {cita.idMedico === null ? "" : String(cita.idMedico)}
+                                                            medicos = {medicos}
+                                                            alCambiar = {(idMedico) => asignarMedico(cita.id, idMedico)}
                                                         />
                                                     ) : (
-                                                        cita.medico === "" ? "No asignado" : cita.medico
+                                                        cita.idMedico === null ? "No asignado" : cita.nombreMedico
                                                     )}
                                                 </td>
 
@@ -163,8 +251,8 @@ function Recepcionista() {
                                                     {cita.estado === "Pendiente" && (
                                                         <button
                                                             className = "btn btn-primary btn-sm me-2"
-                                                            disabled = {cita.medico === ""}
-                                                            onClick = {() => cambiarEstado(cita.id, "Confirmada")}
+                                                            disabled = {cita.idMedico === null}
+                                                            onClick = {() => confirmarCita(cita.id)}
                                                         >
                                                             Confirmar
                                                         </button>
@@ -172,7 +260,7 @@ function Recepcionista() {
 
                                                     {/* Una cita cancelada ya no se puede volver a cancelar */}
                                                     {cita.estado !== "Cancelada" && (
-                                                        <button className = "btn btn-danger btn-sm" onClick = {() => cambiarEstado(cita.id, "Cancelada")}>Cancelar</button>
+                                                        <button className = "btn btn-danger btn-sm" onClick = {() => cancelarCita(cita.id, cita.precio)}>Cancelar</button>
                                                     )}
 
                                                     {cita.estado === "Cancelada" && (
