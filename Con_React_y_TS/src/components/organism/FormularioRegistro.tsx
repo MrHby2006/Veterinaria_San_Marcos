@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CampoFormulario from "../molecules/CampoFormulario";
+import { API, leerError } from "../../data/api";
 
 function FormularioRegistro() {
     const [nombre, setNombre] = useState("");
@@ -7,7 +8,10 @@ function FormularioRegistro() {
     const [contrasena, setContrasena] = useState("");
     const [direccion, setDireccion] = useState("");
 
-    const manejarRegistro = (e: React.SubmitEvent<HTMLFormElement>) => {
+    // true mientras se espera la respuesta del backend
+    const [enviando, setEnviando] = useState(false);
+
+    const manejarRegistro = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (nombre.trim() === "") {
@@ -41,7 +45,36 @@ function FormularioRegistro() {
             return;
         }
 
-        alert("Datos ingresados correctamente")
+        // Comienza el envío
+        setEnviando(true);
+
+        try {
+            // El backend encripta la contraseña y crea al usuario como Cliente
+            const respuesta = await fetch(API + "/api/usuarios/registro", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nombre: nombre.trim(),
+                    correo: correo.trim(),
+                    contrasena: contrasena,
+                    direccion: direccion.trim(),
+                }),
+            });
+
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
+            }
+
+            alert("Cuenta creada con éxito, ahora puede iniciar sesión");
+            window.location.href = "/login";
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        } finally {
+            setEnviando(false);
+        }
     };
 
     return (
@@ -53,7 +86,7 @@ function FormularioRegistro() {
                 valor={nombre}
                 alCambiar={setNombre}
             />
-            
+
             <CampoFormulario
                 etiqueta="Correo electrónico"
                 tipo="email"
@@ -79,8 +112,8 @@ function FormularioRegistro() {
             />
 
             <div className="text-center">
-                <button type="submit" className="btn btn-primary">
-                    Crear Cuenta
+                <button type="submit" className="btn btn-primary" disabled={enviando}>
+                    {enviando ? "Enviando..." : "Crear Cuenta"}
                 </button>
             </div>
         </form>

@@ -1,11 +1,16 @@
 import { useState } from "react";
 import CampoFormulario from "../molecules/CampoFormulario";
+import { API, leerError } from "../../data/api";
+import { guardarUsuario } from "../../data/sesion";
 
 function FormularioLogin() {
     const [correo, setCorreo] = useState("");
     const [contrasena, setContrasena] = useState("");
 
-    const manejarLogin = (e: React.SubmitEvent<HTMLFormElement>) => {
+    // true mientras se espera la respuesta del backend
+    const [enviando, setEnviando] = useState(false);
+
+    const manejarLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (correo.trim() === "") {
@@ -29,7 +34,45 @@ function FormularioLogin() {
             return;
         }
 
-        alert("Datos ingresados correctamente")
+        // Comienza el envío
+        setEnviando(true);
+
+        try {
+            // El backend compara la contraseña con la que tiene encriptada
+            const respuesta = await fetch(API + "/api/usuarios/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    correo: correo.trim(),
+                    contrasena: contrasena,
+                }),
+            });
+
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
+            }
+
+            // Guarda al usuario para saber quién es en las otras páginas
+            const usuario = await respuesta.json();
+            guardarUsuario(usuario);
+            alert("Bienvenido, " + usuario.nombre);
+
+            // Lo manda a su panel. Se recarga la página para que el Navbar muestre sus opciones
+            if (usuario.rol === "Administrador") {
+                window.location.href = "/admin";
+            } else if (usuario.rol === "Recepcionista") {
+                window.location.href = "/recepcionista";
+            } else {
+                window.location.href = "/";
+            }
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        } finally {
+            setEnviando(false);
+        }
     };
 
     return (
@@ -51,8 +94,8 @@ function FormularioLogin() {
             />
 
             <div className="text-center">
-                <button type="submit" className="btn btn-primary">
-                    Iniciar Sesión
+                <button type="submit" className="btn btn-primary" disabled={enviando}>
+                    {enviando ? "Enviando..." : "Iniciar Sesión"}
                 </button>
             </div>
         </form>

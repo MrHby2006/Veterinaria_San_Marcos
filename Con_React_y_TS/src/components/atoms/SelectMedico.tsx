@@ -1,9 +1,17 @@
-interface SelectMedicoProps {
-    valor: string; // Médico elegido ("" = no asignado)
-    alCambiar: (valor: string) => void; // Función para actualizar el médico
+// Datos de cada médico que manda el microservicio citas
+export interface Medico {
+    id: number;
+    nombre: string;
+    apellido: string;
 }
 
-function SelectMedico({valor, alCambiar}: SelectMedicoProps) {
+interface SelectMedicoProps {
+    valor: string; // Id del médico elegido ("" = no asignado)
+    medicos: Medico[]; // Médicos activos que vienen del backend
+    alCambiar: (valor: string) => void; // Función para guardar el médico
+}
+
+function SelectMedico({valor, medicos, alCambiar}: SelectMedicoProps) {
     return (
         <select
             className = "form-select form-select-sm"
@@ -12,10 +20,9 @@ function SelectMedico({valor, alCambiar}: SelectMedicoProps) {
             onChange = {(e) => alCambiar(e.target.value)}
         >
             <option value = "">No asignado</option>
-            <option value = "Dra. Camila Rojas">Dra. Camila Rojas</option>
-            <option value = "Dr. Felipe Soto">Dr. Felipe Soto</option>
-            <option value = "Dra. Valentina Muñoz">Dra. Valentina Muñoz</option>
-            <option value = "Dr. Andrés Pérez">Dr. Andrés Pérez</option>
+            {medicos.map((medico) => (
+                <option key = {medico.id} value = {medico.id}>{medico.nombre} {medico.apellido}</option>
+            ))}
         </select>
     )
 }
