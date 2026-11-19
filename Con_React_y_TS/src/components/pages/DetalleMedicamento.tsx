@@ -299,7 +299,7 @@ function DetalleMedicamento() {
                     <p className = "fs-3 fw-bold mt-3">Precio: ${medicamento.precio_unitario}</p>
 
                     <div className = "d-flex flex-wrap gap-3 mt-3">
-                        <BotonAddCarro />
+                        <BotonAddCarro idMedicamento = {medicamento.id} />
                         <BotonVolverMed />
                     </div>
                 </div>

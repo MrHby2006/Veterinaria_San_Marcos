@@ -1,37 +1,66 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CampoFormulario from "../molecules/CampoFormulario";
 import SelectTipoUsuario from "../molecules/SelectTipoUsuario";
+import { API, leerError } from "../../data/api";
+import { obtenerUsuario } from "../../data/sesion";
+
+// Datos de cada usuario que manda el microservicio usuarios (nunca trae la contraseña)
+interface Usuario {
+    id: number;
+    nombre: string;
+    correo: string;
+    rol: string;
+}
 
 function Admin_usuarios() {
-    // Estado con la lista de usuarios (sin base de datos, se reinicia al recargar)
-    const [usuarios, setUsuarios] = useState([
-        { id: 1, nombre: "Cliente de prueba", correo: "cliente@sanmarcos.cl", tipo: "Cliente" },
-        { id: 2, nombre: "Recepcionista de prueba", correo: "recepcion@sanmarcos.cl", tipo: "Recepcionista" },
-        { id: 3, nombre: "Administrador de prueba", correo: "admin@sanmarcos.cl", tipo: "Administrador" },
-    ]);
+    const usuarioSesion = obtenerUsuario();
+    const esAdmin = usuarioSesion !== null && usuarioSesion.rol === "Administrador";
+
+    // Lista de usuarios activos, viene del backend
+    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
 
     // Estados del formulario
     const [nombre, setNombre] = useState("");
     const [correo, setCorreo] = useState("");
+    const [contrasena, setContrasena] = useState("");
     const [tipo, setTipo] = useState("Cliente");
 
     // Id del usuario que se está editando (0 = ninguno, se está agregando uno nuevo)
     const [idEditando, setIdEditando] = useState(0);
 
-    // Id que se le dará al próximo usuario nuevo
-    const [siguienteId, setSiguienteId] = useState(4);
+    // true mientras se espera la respuesta del backend
+    const [enviando, setEnviando] = useState(false);
+
+    // Consulta los usuarios al abrir la página (solo si es admin).
+    // Se manda ?idAdmin= para que el backend revise que de verdad sea administrador
+    useEffect(() => {
+        const usuarioActual = obtenerUsuario();
+        if (usuarioActual === null || usuarioActual.rol !== "Administrador") {
+            return;
+        }
+        fetch(API + "/api/usuarios?idAdmin=" + usuarioActual.id)
+            .then((respuesta) => {
+                if (!respuesta.ok) {
+                    throw new Error("Error al consultar los usuarios");
+                }
+                return respuesta.json();
+            })
+            .then((datos) => setUsuarios(datos))
+            .catch(() => alert("No se pudieron cargar los usuarios"));
+    }, []);
 
     // Deja el formulario vacío otra vez
     const limpiarFormulario = () => {
         setNombre("");
         setCorreo("");
+        setContrasena("");
         setTipo("Cliente");
         setIdEditando(0);
     };
 
     // Agrega un usuario nuevo o guarda los cambios del que se está editando
-    const manejarEnvio = (e: React.SubmitEvent<HTMLFormElement>) => {
+    const manejarEnvio = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault(); // Evita recargar la página
 
         if (nombre.trim() === "") {
@@ -47,39 +76,105 @@ function Admin_usuarios() {
             alert("Ingrese un correo válido");
             return;
         }
-
-        if (idEditando === 0) {
-            // Agregar: se crea el usuario y se suma al final de la lista
-            const nuevoUsuario = { id: siguienteId, nombre: nombre, correo: correo, tipo: tipo };
-            setUsuarios(usuarios.concat(nuevoUsuario));
-            setSiguienteId(siguienteId + 1);
-            alert("Usuario agregado");
-        } else {
-            // Editar: se reemplaza solo el usuario que tiene ese id
-            setUsuarios(usuarios.map((usuario) => {
-                if (usuario.id === idEditando) {
-                    return { id: usuario.id, nombre: nombre, correo: correo, tipo: tipo };
-                }
-                return usuario;
-            }));
-            alert("Usuario actualizado");
+        // La contraseña solo se pide al agregar (al editar no se cambia)
+        if (idEditando === 0 && contrasena.length < 8) {
+            alert("La contraseña debe ser de mínimo 8 caracteres");
+            return;
         }
 
-        limpiarFormulario();
+        setEnviando(true);
+
+        try {
+            if (idEditando === 0) {
+                // Agregar: POST con los datos y la contraseña
+                const respuesta = await fetch(API + "/api/usuarios?idAdmin=" + usuarioSesion?.id, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre.trim(),
+                        correo: correo.trim(),
+                        contrasena: contrasena,
+                        rol: tipo,
+                    }),
+                });
+                if (!respuesta.ok) {
+                    alert(await leerError(respuesta));
+                    return;
+                }
+                const nuevoUsuario: Usuario = await respuesta.json();
+                setUsuarios(usuarios.concat(nuevoUsuario));
+                alert("Usuario agregado");
+            } else {
+                // Editar: PUT al usuario que tiene ese id
+                const respuesta = await fetch(API + "/api/usuarios/" + idEditando + "?idAdmin=" + usuarioSesion?.id, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre.trim(),
+                        correo: correo.trim(),
+                        rol: tipo,
+                    }),
+                });
+                if (!respuesta.ok) {
+                    alert(await leerError(respuesta));
+                    return;
+                }
+                const usuarioEditado: Usuario = await respuesta.json();
+                setUsuarios(usuarios.map((usuario) => {
+                    if (usuario.id === usuarioEditado.id) {
+                        return usuarioEditado;
+                    }
+                    return usuario;
+                }));
+                alert("Usuario actualizado");
+            }
+
+            limpiarFormulario();
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        } finally {
+            setEnviando(false);
+        }
     };
 
     // Pasa los datos del usuario al formulario para editarlo
     const editarUsuario = (id: number, nombreUsuario: string, correoUsuario: string, tipoUsuario: string) => {
         setNombre(nombreUsuario);
         setCorreo(correoUsuario);
+        setContrasena("");
         setTipo(tipoUsuario);
         setIdEditando(id);
     };
 
-    // Quita un usuario de la lista
-    const eliminarUsuario = (id: number) => {
-        setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
+    // Elimina un usuario. En el backend no se borra: queda desactivado
+    const eliminarUsuario = async (id: number) => {
+        if (!confirm("¿Seguro que quiere eliminar este usuario?")) {
+            return;
+        }
+        try {
+            const respuesta = await fetch(API + "/api/usuarios/" + id + "?idAdmin=" + usuarioSesion?.id, { method: "DELETE" });
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
+            }
+            setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        }
     };
+
+    if (!esAdmin) {
+        return (
+            <div className = "container my-4">
+                <h2 className = "fw-bold text-center" style = {{ color: "#2F3E46", fontSize: "40px" }}>Mantenedor de usuarios</h2>
+                <p className = "text-center mt-4">Solo el administrador puede ver esta página. <a href = "/login">Iniciar sesión</a></p>
+            </div>
+        )
+    }
 
     return (
         <div className = "container my-4">
@@ -112,14 +207,25 @@ function Admin_usuarios() {
                                 alCambiar = {setCorreo}
                             />
 
+                            {/* La contraseña solo se escribe al agregar */}
+                            {idEditando === 0 && (
+                                <CampoFormulario
+                                    etiqueta = "Contraseña"
+                                    tipo = "password"
+                                    nombre = "contrasena"
+                                    valor = {contrasena}
+                                    alCambiar = {setContrasena}
+                                />
+                            )}
+
                             <SelectTipoUsuario
                                 valor = {tipo}
                                 alCambiar = {setTipo}
                             />
 
                             <div className = "text-center">
-                                <button type = "submit" className = "btn btn-primary">
-                                    {idEditando === 0 ? "Agregar usuario" : "Guardar cambios"}
+                                <button type = "submit" className = "btn btn-primary" disabled = {enviando}>
+                                    {enviando ? "Enviando..." : idEditando === 0 ? "Agregar usuario" : "Guardar cambios"}
                                 </button>
                             </div>
 
@@ -142,9 +248,9 @@ function Admin_usuarios() {
                                     <tr key = {usuario.id}>
                                         <td>{usuario.nombre}</td>
                                         <td>{usuario.correo}</td>
-                                        <td>{usuario.tipo}</td>
+                                        <td>{usuario.rol}</td>
                                         <td>
-                                            <button className = "btn btn-primary btn-sm me-2" onClick = {() => editarUsuario(usuario.id, usuario.nombre, usuario.correo, usuario.tipo)}>Editar</button>
+                                            <button className = "btn btn-primary btn-sm me-2" onClick = {() => editarUsuario(usuario.id, usuario.nombre, usuario.correo, usuario.rol)}>Editar</button>
                                             <button className = "btn btn-danger btn-sm" onClick = {() => eliminarUsuario(usuario.id)}>Eliminar</button>
                                         </td>
                                     </tr>

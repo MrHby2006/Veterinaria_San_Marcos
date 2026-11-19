@@ -1,21 +1,27 @@
 import { useState } from "react";
 import CampoFormulario from "../molecules/CampoFormulario";
 import SelectEspecie from "../molecules/SelectEspecie";
+import { API, leerError } from "../../data/api";
+import { obtenerUsuario } from "../../data/sesion";
 
 interface FormularioReservaProps {
-    servicio: string; // Servicio elegido en la página de Servicios
+    servicio: string; // Nombre del servicio elegido en la página de Servicios
+    idServicio: number; // Id de ese servicio en la base de datos (0 = no se encontró)
 }
 
-function FormularioReserva({servicio}: FormularioReservaProps) {
+function FormularioReserva({servicio, idServicio}: FormularioReservaProps) {
 
     // Estados para guardar los datos del formulario
     const [mascota, setMascota] = useState("");
-    const [especie, setEspecie] = useState("");
+    const [especie, setEspecie] = useState(""); // guarda el id de la especie
     const [fecha, setFecha] = useState("");
     const [hora, setHora] = useState("");
 
-    // Valida los datos al enviar el formulario
-    const manejarReserva = (e: React.SubmitEvent<HTMLFormElement>) => {
+    // true mientras se espera la respuesta del backend
+    const [enviando, setEnviando] = useState(false);
+
+    // Valida los datos y los envía al backend
+    const manejarReserva = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault(); // Evita recargar la página
 
         if (mascota.trim() === "") {
@@ -60,7 +66,54 @@ function FormularioReserva({servicio}: FormularioReservaProps) {
             alert("De lunes a viernes atendemos de 09:00 a 19:00");
             return;
         }
-        alert("Hora reservada con éxito para " + mascota + ": " + servicio + " el " + fecha + " a las " + hora);
+
+        // Para reservar hay que haber iniciado sesión (el backend necesita el id del cliente)
+        const usuario = obtenerUsuario();
+        if (usuario === null) {
+            alert("Debe iniciar sesión para reservar una hora");
+            return;
+        }
+        if (idServicio === 0) {
+            alert("Este servicio no está disponible por ahora");
+            return;
+        }
+
+        // Comienza el envío
+        setEnviando(true);
+
+        try {
+            const respuesta = await fetch(API + "/api/citas", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    idUsuario: usuario.id,
+                    nombreMascota: mascota.trim(),
+                    idEspecie: Number(especie),
+                    idServicio: idServicio,
+                    fecha: fecha,
+                    hora: hora,
+                }),
+            });
+
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
+            }
+
+            alert("Hora reservada con éxito para " + mascota + ": " + servicio + " el " + fecha + " a las " + hora);
+
+            // Deja el formulario vacío para otra reserva
+            setMascota("");
+            setEspecie("");
+            setFecha("");
+            setHora("");
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        } finally {
+            setEnviando(false);
+        }
     };
 
     return (
@@ -100,8 +153,8 @@ function FormularioReserva({servicio}: FormularioReservaProps) {
             />
 
             <div className = "text-center">
-                <button type = "submit" className = "btn btn-primary">
-                    Reservar hora
+                <button type = "submit" className = "btn btn-primary" disabled = {enviando}>
+                    {enviando ? "Enviando..." : "Reservar hora"}
                 </button>
             </div>
 

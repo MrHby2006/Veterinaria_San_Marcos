@@ -17,6 +17,7 @@ import ReservarHora from './components/pages/ReservarHora'
 import Admin from './components/pages/Admin'
 import Admin_servicios from './components/pages/Admin_servicios'
 import Admin_usuarios from './components/pages/Admin_usuarios'
+import Admin_medicos from './components/pages/Admin_medicos'
 import Recepcionista from './components/pages/Recepcionista'
 
 
@@ -105,6 +106,11 @@ function App() {
         <Route
           path = '/admin/usuarios'
           element = {<Admin_usuarios />}
+        />
+
+        <Route
+          path = '/admin/medicos'
+          element = {<Admin_medicos />}
         />
 
         <Route

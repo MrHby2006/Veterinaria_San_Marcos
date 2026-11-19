@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { obtenerUsuario } from "../../data/sesion";
 
 function Admin_servicios() {
+    // Solo el administrador puede cambiar precios
+    const usuarioSesion = obtenerUsuario();
+    const esAdmin = usuarioSesion !== null && usuarioSesion.rol === "Administrador";
+
     // Estado con los servicios y sus precios (sin base de datos, se reinicia al recargar)
     const [servicios, setServicios] = useState([
         { id: 1, nombre: "Consulta general", precio: 15000 },
@@ -96,6 +101,15 @@ function Admin_servicios() {
         }
         alert("Precio actualizado");
     };
+
+    if (!esAdmin) {
+        return (
+            <div className = "container my-4">
+                <h2 className = "fw-bold text-center" style = {{ color: "#2F3E46", fontSize: "40px" }}>Mantenedor de precios</h2>
+                <p className = "text-center mt-4">Solo el administrador puede ver esta página. <a href = "/login">Iniciar sesión</a></p>
+            </div>
+        )
+    }
 
     return (
         <div className = "container my-4">

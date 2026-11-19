@@ -1,44 +1,63 @@
 // @vitest-environment jsdom
 
-import { test, expect, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { test, expect, vi, afterEach } from "vitest";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 
 import Recepcionista from "../components/pages/Recepcionista";
 
+// fetch se simula con vi.spyOn, así la prueba no necesita el backend encendido
+const respuestaFalsa = (datos: unknown) => new Response(JSON.stringify(datos), { status: 200 });
+
 afterEach(() => {
   cleanup();
+  localStorage.clear();
+  vi.restoreAllMocks();
 });
 
-test("la recepcionista solo ve las citas que ya están pagadas", () => {
+test("sin iniciar sesión como recepcionista no se ven las citas", () => {
+
+  const llamadas = vi.spyOn(globalThis, "fetch");
 
   render(<Recepcionista />);
 
-  // La cita de cliente@sanmarcos.cl está pagada, así que se muestra
-  expect(screen.getByText("cliente@sanmarcos.cl")).not.toBe(null);
-
-  // La cita de pedro@correo.cl está "Por pagar", así que no debe aparecer
-  expect(screen.queryByText("pedro@correo.cl")).toBe(null);
+  // Aparece el aviso y no se le pide nada al backend
+  expect(screen.getByText(/Solo las recepcionistas pueden ver esta página/)).not.toBe(null);
+  expect(llamadas).not.toHaveBeenCalled();
 
 });
 
-test("solo se puede confirmar una cita después de asignarle un médico", () => {
+test("solo se puede confirmar una cita después de asignarle un médico", async () => {
+
+  localStorage.setItem("usuario", JSON.stringify({ id: 2, nombre: "Recepción", correo: "recepcion1@sanmarcos.cl", rol: "Recepcionista" }));
+
+  const cita = { id: 1, correoCliente: "cliente@sanmarcos.cl", nombreMascota: "Firulais", nombreServicio: "Consulta general", fecha: "2030-01-07", hora: "10:00", precio: 15000, estado: "Pendiente", idMedico: null, nombreMedico: "Por asignar" };
+
+  // Al abrir la página se piden: citas, médicos y medicamentos (en ese orden).
+  // Después: PUT para asignar el médico y PUT para confirmar
+  vi.spyOn(globalThis, "fetch")
+    .mockResolvedValueOnce(respuestaFalsa([cita]))
+    .mockResolvedValueOnce(respuestaFalsa([{ id: 1, nombre: "Camila", apellido: "Rojas" }]))
+    .mockResolvedValueOnce(respuestaFalsa([]))
+    .mockResolvedValueOnce(respuestaFalsa({ id: 1, correoCliente: "cliente@sanmarcos.cl", nombreMascota: "Firulais", nombreServicio: "Consulta general", fecha: "2030-01-07", hora: "10:00", precio: 15000, estado: "Pendiente", idMedico: 1, nombreMedico: "Camila Rojas" }))
+    .mockResolvedValueOnce(respuestaFalsa({ id: 1, correoCliente: "cliente@sanmarcos.cl", nombreMascota: "Firulais", nombreServicio: "Consulta general", fecha: "2030-01-07", hora: "10:00", precio: 15000, estado: "Confirmada", idMedico: 1, nombreMedico: "Camila Rojas" }));
 
   render(<Recepcionista />);
 
-  // Hay 2 citas pendientes pagadas, cada una con su botón Confirmar
-  const botonConfirmar = screen.getAllByRole("button", { name: "Confirmar" })[0] as HTMLButtonElement;
-
-  // Sin médico el botón está desactivado
+  // Sin médico el botón Confirmar está desactivado
+  const botonConfirmar = await screen.findByRole("button", { name: "Confirmar" }) as HTMLButtonElement;
   expect(botonConfirmar.disabled).toBe(true);
 
-  // Elegimos un médico en el selector de la primera cita
-  fireEvent.change(screen.getAllByLabelText("Médico veterinario")[0], { target: { value: "Dra. Camila Rojas" } });
-  expect(botonConfirmar.disabled).toBe(false);
+  // Esperamos a que lleguen los médicos y elegimos uno en el selector
+  await screen.findByRole("option", { name: "Camila Rojas" });
+  fireEvent.change(screen.getByLabelText("Médico veterinario"), { target: { value: "1" } });
 
-  fireEvent.click(botonConfirmar);
+  // Cuando el backend responde, el botón se activa
+  await waitFor(() => expect((screen.getByRole("button", { name: "Confirmar" }) as HTMLButtonElement).disabled).toBe(false));
 
-  // Ahora hay 2 citas confirmadas (la que ya estaba y la nueva) y queda 1 botón Confirmar
-  expect(screen.getAllByText("Confirmada").length).toBe(2);
-  expect(screen.getAllByRole("button", { name: "Confirmar" }).length).toBe(1);
+  fireEvent.click(screen.getByRole("button", { name: "Confirmar" }));
+
+  // La cita queda Confirmada y ya no hay botón Confirmar
+  expect(await screen.findByText("Confirmada")).not.toBe(null);
+  expect(screen.queryByRole("button", { name: "Confirmar" })).toBe(null);
 
 });
