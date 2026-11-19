@@ -28,6 +28,16 @@ interface Pedido {
     entregado: boolean;
 }
 
+// Datos de cada mensaje del formulario de Contacto que manda el microservicio contenido
+interface MensajeContacto {
+    id: number;
+    nombre: string;
+    correo: string;
+    mensaje: string;
+    fecha: string; // Ej: "2026-11-19T17:33:50"
+    estado: string; // PENDIENTE o ATENDIDO
+}
+
 // Pide datos al backend y los guarda con la función que se le pase
 function cargar(url: string, guardar: (datos: []) => void, mensaje: string) {
     fetch(API + url)
@@ -49,6 +59,7 @@ function Recepcionista() {
     const [citas, setCitas] = useState<CitaRecepcion[]>([]);
     const [medicos, setMedicos] = useState<Medico[]>([]);
     const [pedidos, setPedidos] = useState<Pedido[]>([]);
+    const [mensajes, setMensajes] = useState<MensajeContacto[]>([]);
 
     // Consulta todo al abrir la página
     useEffect(() => {
@@ -60,6 +71,7 @@ function Recepcionista() {
         cargar("/api/citas/pagadas?idUsuario=" + usuarioActual.id, setCitas, "No se pudieron cargar las citas");
         cargar("/api/medicos", setMedicos, "No se pudieron cargar los médicos");
         cargar("/api/compras/pagadas?idUsuario=" + usuarioActual.id, setPedidos, "No se pudieron cargar los medicamentos");
+        cargar("/api/contactos?idUsuario=" + usuarioActual.id, setMensajes, "No se pudieron cargar los mensajes");
     }, []);
 
     // Reemplaza en la tabla la cita que cambió por la que devolvió el backend
@@ -129,7 +141,27 @@ function Recepcionista() {
         }
     };
 
-    // Pestaña que se está viendo (Citas o Medicamentos)
+    // Marca un mensaje de Contacto como ATENDIDO (cuando ya se le respondió a la persona)
+    const marcarAtendido = async (id: number) => {
+        try {
+            const respuesta = await fetch(API + "/api/contactos/" + id + "/estado?idUsuario=" + usuario?.id, { method: "PUT" });
+            if (!respuesta.ok) {
+                alert(await leerError(respuesta));
+                return;
+            }
+            const mensajeNuevo: MensajeContacto = await respuesta.json();
+            setMensajes(mensajes.map((mensaje) => {
+                if (mensaje.id === mensajeNuevo.id) {
+                    return mensajeNuevo;
+                }
+                return mensaje;
+            }));
+        } catch {
+            alert("No se pudo conectar con el servidor");
+        }
+    };
+
+    // Pestaña que se está viendo (Citas, Medicamentos o Mensajes)
     const [pestana, setPestana] = useState("Citas");
 
     if (!puedeEntrar) {
@@ -157,7 +189,56 @@ function Recepcionista() {
                         Retiro de medicamentos
                     </button>
                 </li>
+                <li className = "nav-item">
+                    <button className = {pestana === "Mensajes" ? "nav-link active" : "nav-link"} onClick = {() => setPestana("Mensajes")}>
+                        Mensajes
+                    </button>
+                </li>
             </ul>
+
+            {pestana === "Mensajes" && (
+                <>
+                    <h4 className = "mt-3 mb-4 text-center" style = {{ color: "#2F3E46" }}>Mensajes del formulario de Contacto. Respóndelos por correo y márcalos como atendidos.</h4>
+
+                    <div className = "row justify-content-center">
+                        <div className = "col-12 col-lg-10">
+                            <div className = "table-responsive">
+                                <table className = "table table-bordered align-middle bg-white">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Nombre</th>
+                                            <th>Correo</th>
+                                            <th>Mensaje</th>
+                                            <th>Estado</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {mensajes.map((mensaje) => (
+                                            <tr key = {mensaje.id}>
+                                                {/* La fecha llega como "2026-11-19T17:33:50": se cambia la T por un espacio */}
+                                                <td>{mensaje.fecha.replace("T", " ")}</td>
+                                                <td>{mensaje.nombre}</td>
+                                                <td>{mensaje.correo}</td>
+                                                <td>{mensaje.mensaje}</td>
+                                                <td className = {mensaje.estado === "ATENDIDO" ? "text-success fw-bold" : ""}>{mensaje.estado === "ATENDIDO" ? "Atendido" : "Pendiente"}</td>
+                                                <td>
+                                                    {mensaje.estado === "ATENDIDO" ? (
+                                                        <span className = "text-muted">Sin acciones</span>
+                                                    ) : (
+                                                        <button className = "btn btn-primary btn-sm" onClick = {() => marcarAtendido(mensaje.id)}>Marcar atendido</button>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
 
             {pestana === "Medicamentos" && (
                 <>
