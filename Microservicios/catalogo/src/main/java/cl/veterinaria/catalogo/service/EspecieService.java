@@ -20,7 +20,7 @@ public class EspecieService {
 
     // Select de especies (Reservar hora) y filtro de Medicamentos
     public List<Especie> listar() {
-        return repository.findAll();
+        return repository.findAllByOrderByIdAsc();
     }
 
     // Lo usa contenido para revisar que la especie de un consejo exista
