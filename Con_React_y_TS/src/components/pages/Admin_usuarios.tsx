@@ -81,6 +81,11 @@ function Admin_usuarios() {
             alert("La contraseña debe ser de mínimo 8 caracteres");
             return;
         }
+        // El backend no puede encriptar contraseñas más largas
+        if (idEditando === 0 && contrasena.length > 72) {
+            alert("La contraseña puede tener máximo 72 caracteres");
+            return;
+        }
 
         setEnviando(true);
 
@@ -162,6 +167,10 @@ function Admin_usuarios() {
                 return;
             }
             setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
+            // Si se estaba editando ese usuario, se vacía el formulario
+            if (id === idEditando) {
+                limpiarFormulario();
+            }
         } catch {
             alert("No se pudo conectar con el servidor");
         }
@@ -227,6 +236,10 @@ function Admin_usuarios() {
                                 <button type = "submit" className = "btn btn-primary" disabled = {enviando}>
                                     {enviando ? "Enviando..." : idEditando === 0 ? "Agregar usuario" : "Guardar cambios"}
                                 </button>
+                                {/* Mientras se edita, se puede volver a modo agregar */}
+                                {idEditando !== 0 && (
+                                    <button type = "button" className = "btn btn-secondary ms-2" onClick = {limpiarFormulario}>Cancelar</button>
+                                )}
                             </div>
 
                         </form>

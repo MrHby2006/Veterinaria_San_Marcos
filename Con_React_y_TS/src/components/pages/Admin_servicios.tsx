@@ -77,6 +77,11 @@ function Admin_servicios() {
             alert("El precio debe ser mayor a 0");
             return;
         }
+        // Los precios son en pesos, así que no llevan decimales
+        if (!Number.isInteger(precio)) {
+            alert("El precio debe ser un número entero, sin decimales");
+            return;
+        }
 
         // Servicios = PUT /api/servicios/{id}, Medicamentos = PUT /api/medicamentos/{id}
         let url = API + "/api/servicios/" + id + "?idUsuario=" + usuarioSesion?.id;

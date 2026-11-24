@@ -32,11 +32,12 @@ test("solo se puede confirmar una cita después de asignarle un médico", async 
 
   const cita = { id: 1, correoCliente: "cliente@sanmarcos.cl", nombreMascota: "Firulais", nombreServicio: "Consulta general", fecha: "2030-01-07", hora: "10:00", precio: 15000, estado: "Pendiente", idMedico: null, nombreMedico: "Por asignar" };
 
-  // Al abrir la página se piden: citas, médicos y medicamentos (en ese orden).
+  // Al abrir la página se piden: citas, médicos, medicamentos y mensajes (en ese orden).
   // Después: PUT para asignar el médico y PUT para confirmar
   vi.spyOn(globalThis, "fetch")
     .mockResolvedValueOnce(respuestaFalsa([cita]))
     .mockResolvedValueOnce(respuestaFalsa([{ id: 1, nombre: "Camila", apellido: "Rojas" }]))
+    .mockResolvedValueOnce(respuestaFalsa([]))
     .mockResolvedValueOnce(respuestaFalsa([]))
     .mockResolvedValueOnce(respuestaFalsa({ id: 1, correoCliente: "cliente@sanmarcos.cl", nombreMascota: "Firulais", nombreServicio: "Consulta general", fecha: "2030-01-07", hora: "10:00", precio: 15000, estado: "Pendiente", idMedico: 1, nombreMedico: "Camila Rojas" }))
     .mockResolvedValueOnce(respuestaFalsa({ id: 1, correoCliente: "cliente@sanmarcos.cl", nombreMascota: "Firulais", nombreServicio: "Consulta general", fecha: "2030-01-07", hora: "10:00", precio: 15000, estado: "Confirmada", idMedico: 1, nombreMedico: "Camila Rojas" }));

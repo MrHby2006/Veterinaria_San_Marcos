@@ -1,5 +1,6 @@
 package cl.veterinaria.usuarios.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNombre(datos.getNombre().trim());
         usuario.setCorreo(correo);
-        usuario.setContrasena(encoder.encode(datos.getContrasena()));
+        usuario.setContrasena(encriptar(datos.getContrasena()));
         usuario.setDireccion(datos.getDireccion().trim());
         usuario.setRol("Cliente");
         usuario.setActivo(true);
@@ -87,7 +88,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNombre(datos.getNombre().trim());
         usuario.setCorreo(correo);
-        usuario.setContrasena(encoder.encode(datos.getContrasena()));
+        usuario.setContrasena(encriptar(datos.getContrasena()));
         usuario.setRol(datos.getRol());
         usuario.setActivo(true);
         if (datos.getDireccion() != null && !datos.getDireccion().isBlank()) {
@@ -159,6 +160,14 @@ public class UsuarioService {
     // "Juan@Correo.cl " y "juan@correo.cl" son el mismo correo
     private String limpiarCorreo(String correo) {
         return correo.trim().toLowerCase();
+    }
+
+    // BCrypt no acepta mas de 72 bytes (una letra normal es 1 byte, una ñ o una tilde son 2)
+    private String encriptar(String contrasena) {
+        if (contrasena.getBytes(StandardCharsets.UTF_8).length > 72) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña puede tener maximo 72 caracteres");
+        }
+        return encoder.encode(contrasena);
     }
 
     private void validarCorreoLibre(String correo) {

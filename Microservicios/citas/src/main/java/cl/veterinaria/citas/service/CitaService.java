@@ -86,14 +86,16 @@ public class CitaService {
         return aDTO(citaRepository.save(cita));
     }
 
-    // Mis Citas: todas las citas de todas las mascotas del cliente
+    // Mis Citas: todas las citas de todas las mascotas del cliente, ordenadas por fecha y hora
     public List<CitaDTO> misCitas(Long idUsuario) {
         permisoService.obtenerUsuario(idUsuario);
-        List<CitaDTO> lista = new ArrayList<>();
+        List<Long> idsMascotas = new ArrayList<>();
         for (Mascota mascota : mascotaRepository.findByIdUsuario(idUsuario)) {
-            for (Cita cita : citaRepository.findByIdMascota(mascota.getId())) {
-                lista.add(aDTO(cita));
-            }
+            idsMascotas.add(mascota.getId());
+        }
+        List<CitaDTO> lista = new ArrayList<>();
+        for (Cita cita : citaRepository.findByIdMascotaInOrderByFechaAscHoraAsc(idsMascotas)) {
+            lista.add(aDTO(cita));
         }
         return lista;
     }
@@ -180,6 +182,11 @@ public class CitaService {
         if (cita.getIdMedico() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Primero hay que asignar un medico");
         }
+        // Puede que el medico haya sido eliminado despues de asignarlo
+        Optional<Medico> medico = medicoRepository.findById(cita.getIdMedico());
+        if (medico.isEmpty() || !medico.get().getActivo()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El medico asignado ya no trabaja en la clinica, elija otro");
+        }
         cita.setEstado("Confirmada");
         return aDTO(citaRepository.save(cita));
     }
@@ -248,6 +255,12 @@ public class CitaService {
         }
         if (fecha.equals(hoy) && hora.isBefore(LocalTime.now())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Esa hora de hoy ya paso");
+        }
+
+        // Solo se reserva a la hora en punto o a la media hora (ej: 10:00 o 10:30).
+        // Asi un medico no puede quedar con citas a las 10:00 y a las 10:05
+        if (hora.getSecond() != 0 || (hora.getMinute() != 0 && hora.getMinute() != 30)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Solo se puede reservar a la hora en punto o a la media hora (ej: 10:00 o 10:30)");
         }
 
         DayOfWeek dia = fecha.getDayOfWeek();
