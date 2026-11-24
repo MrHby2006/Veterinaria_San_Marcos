@@ -10,8 +10,8 @@ import cl.veterinaria.citas.model.Cita;
 
 public interface CitaRepository extends JpaRepository<Cita, Long> {
 
-    // Mis Citas: las citas de una mascota del cliente
-    List<Cita> findByIdMascota(Long idMascota);
+    // Mis Citas: las citas de las mascotas del cliente, la mas cercana primero
+    List<Cita> findByIdMascotaInOrderByFechaAscHoraAsc(List<Long> idsMascotas);
 
     // Recepcion: solo ve las citas pagadas
     List<Cita> findByPagadoTrueOrderByFechaAscHoraAsc();

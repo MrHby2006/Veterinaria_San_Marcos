@@ -40,6 +40,12 @@ function FormularioRegistro() {
             return;
         }
 
+        // El backend no puede encriptar contraseñas más largas
+        if (contrasena.length > 72) {
+            alert("La contraseña puede tener máximo 72 caracteres");
+            return;
+        }
+
         if (direccion.trim() === "") {
             alert("Debe ingresar una dirección");
             return;

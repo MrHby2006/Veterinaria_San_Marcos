@@ -122,6 +122,10 @@ function Admin_medicos() {
                 return;
             }
             setMedicos(medicos.filter((medico) => medico.id !== id));
+            // Si se estaba editando ese médico, se vacía el formulario
+            if (id === idEditando) {
+                limpiarFormulario();
+            }
         } catch {
             alert("No se pudo conectar con el servidor");
         }

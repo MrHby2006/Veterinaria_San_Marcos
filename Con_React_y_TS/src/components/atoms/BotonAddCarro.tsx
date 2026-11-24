@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { API, leerError } from "../../data/api";
 import { obtenerUsuario } from "../../data/sesion";
 
@@ -8,12 +9,18 @@ interface BotonAddCarroProps {
 // Agrega 1 unidad del medicamento al carrito del cliente.
 // Si ya estaba en el carrito, el backend le suma 1 a la cantidad.
 function BotonAddCarro({idMedicamento}: BotonAddCarroProps) {
+    // true mientras se espera la respuesta del backend.
+    // Desactiva el botón, así un doble clic no agrega el producto dos veces
+    const [enviando, setEnviando] = useState(false);
+
     const agregarAlCarrito = async () => {
         const usuario = obtenerUsuario();
         if (usuario === null) {
             alert("Debe iniciar sesión para comprar");
             return;
         }
+
+        setEnviando(true);
 
         try {
             // No se manda el precio: el backend lo copia desde catalogo
@@ -37,6 +44,8 @@ function BotonAddCarro({idMedicamento}: BotonAddCarroProps) {
             alert("Medicamento agregado con éxito al carrito");
         } catch {
             alert("No se pudo conectar con el servidor");
+        } finally {
+            setEnviando(false);
         }
     };
 
@@ -45,8 +54,9 @@ function BotonAddCarro({idMedicamento}: BotonAddCarroProps) {
             type = "button"
             className = "btn btn-primary"
             onClick = {agregarAlCarrito}
+            disabled = {enviando}
         >
-            Añadir al Carrito
+            {enviando ? "Enviando..." : "Añadir al Carrito"}
         </button>
     )
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CampoFormulario from "../molecules/CampoFormulario";
 import SelectEspecie from "../molecules/SelectEspecie";
+import SelectHora from "../molecules/SelectHora";
 import { API, leerError } from "../../data/api";
 import { obtenerUsuario } from "../../data/sesion";
 
@@ -144,10 +145,7 @@ function FormularioReserva({servicio, idServicio}: FormularioReservaProps) {
                 alCambiar = {setFecha}
             />
 
-            <CampoFormulario
-                etiqueta = "Hora"
-                tipo = "time"
-                nombre = "hora"
+            <SelectHora
                 valor = {hora}
                 alCambiar = {setHora}
             />
